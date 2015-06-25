@@ -1,3 +1,3 @@
-node sherlock-app {
+node /^sherlock-app/ {
         include deploy
 }
