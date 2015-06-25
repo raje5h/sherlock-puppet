@@ -18,11 +18,11 @@ class deploy {
     }
 
     file { "/home/udit.jain/health-script.sh":
-            owner => root,
-            group => root,
-            content => template("common/health-script.sh"),
-            mode => 777,
-            require => Exec["fk-w3-sherlock"],
+        owner => root,
+        group => root,
+        content => template("common/health-script.sh"),
+        mode => 777,
+        require => Exec["fk-w3-sherlock"],
     }
 
     exec { "health-check-script":
