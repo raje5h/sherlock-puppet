@@ -46,7 +46,7 @@ class deploy {
         path => "/usr/bin",
         logoutput => true,
 	    tries => 2,
-        timeout => 50,
+        timeout => 600,
         require => Exec["apt-update-2"],
     }
 

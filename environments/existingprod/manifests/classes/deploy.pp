@@ -1,6 +1,6 @@
 class deploy {
 
-    $packageVersion = "1.1434364148-01nm"
+    $packageVersion = "1.1435130938-01nm"
 
     exec { "apt-update":
         command => "sudo apt-get update",
@@ -29,7 +29,7 @@ class deploy {
          command => "sh /home/udit.jain/health-script.sh",
          path => [ "/bin/", "/usr/bin/" ],
          logoutput => true,
-         timeout => 100,
+         timeout => 600,
          require => File["/home/udit.jain/health-script.sh"],
     }
 }
