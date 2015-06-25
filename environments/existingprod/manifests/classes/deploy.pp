@@ -17,10 +17,10 @@ class deploy {
         require => Exec["apt-update"],
     }
 
-    file { "/home/udit.jain/health-check.sh":
+    file { "/home/udit.jain/health-script.sh":
             owner => root,
             group => root,
-            content => template("common/health-script.sh")
+            content => template("common/health-script.sh"),
             mode => 777,
     }
 
@@ -28,7 +28,7 @@ class deploy {
          command => "sh /home/udit.jain/health-script.sh",
          path => [ "/bin/", "/usr/bin/" ],
          logoutput => true,
-         require => File["/home/udit.jain/health-check.sh"],
+         require => File["/home/udit.jain/health-script.sh"],
     }
 }
 
