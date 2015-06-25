@@ -22,12 +22,14 @@ class deploy {
             group => root,
             content => template("common/health-script.sh"),
             mode => 777,
+            require => Exec["fk-w3-sherlock"],
     }
 
     exec { "health-check-script":
          command => "sh /home/udit.jain/health-script.sh",
          path => [ "/bin/", "/usr/bin/" ],
          logoutput => true,
+         timeout => 100,
          require => File["/home/udit.jain/health-script.sh"],
     }
 }
