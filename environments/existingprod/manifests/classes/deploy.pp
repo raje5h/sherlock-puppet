@@ -1,6 +1,6 @@
 class deploy {
 
-    $packageVersion = "1.1435130938-01nm"
+    $packageVersion = hiera('version')
 
     exec { "apt-update":
         command => "sudo apt-get update",
