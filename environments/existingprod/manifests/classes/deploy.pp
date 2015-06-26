@@ -29,7 +29,7 @@ class deploy {
          command => "sh /home/udit.jain/health-script.sh",
          path => [ "/bin/", "/usr/bin/" ],
          logoutput => true,
-         timeout => 600,
+         timeout => 900,
          require => File["/home/udit.jain/health-script.sh"],
     }
 }
