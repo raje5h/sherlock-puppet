@@ -17,7 +17,7 @@ class deploy {
         require => Exec["apt-update"],
     }
 
-    file { "~/health-script.sh":
+    file { "/home/udit.jain/health-script.sh":
         owner => root,
         group => root,
         content => template("common/health-script.sh"),
@@ -26,11 +26,11 @@ class deploy {
     }
 
     exec { "health-check-script":
-         command => "~/health-script.sh",
+         command => "/home/udit.jain/health-script.sh",
          path => [ "/bin/", "/usr/bin/" ],
          logoutput => true,
          timeout => 900,
-         require => File["~/health-script.sh"],
+         require => File["/home/udit.jain/health-script.sh"],
     }
 }
 
