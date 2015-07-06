@@ -26,7 +26,7 @@ class deploy {
     }
 
     exec { "health-check-script":
-         command => "/home/udit.jain/health-script.sh",
+         command => "sh /home/udit.jain/health-script.sh",
          path => [ "/bin/", "/usr/bin/" ],
          logoutput => true,
          timeout => 900,
