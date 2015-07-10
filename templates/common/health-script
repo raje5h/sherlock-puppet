@@ -1,10 +1,10 @@
 hostname=`hostname`
 status=`curl -I "http://$hostname.nm.flipkart.com:25280/sherlock/intent?q=samsung" | grep "HTTP" | awk '{print $2}'`
 
-oldVersion=<%= @packageVersion %>
-newVersion=<%= @newversion %>
+versionToDeploy=<%= @packageVersion %>
 currentRotationStatus="<%= @currentRotationStatus %>"
 
+newVersion=`dpkg -l | grep fk-w3-sherlock | awk '{print $3}'`
 newRotationStatus="`fk-w3-sherlock-admin status`"
 
 echo "====================================================="
@@ -21,10 +21,10 @@ else
     exit 2
 fi
 
-if [ "$oldVersion" == "$newVersion" ]
+if [ "$versionToDeploy" == "$newVersion" ]
 then
     echo "===package version check successfull===="
-    echo "package version = $oldVersion"
+    echo "package version = $versionToDeploy"
 else
     echo "=====package version check failed======="
     exit 2

@@ -1,7 +1,6 @@
 class deploy {
 
     $packageVersion = hiera('version')
-    $newversion = $::sherlockversion
     $currentRotationStatus = $::rotationstatus
 
     exec { "apt-update":
