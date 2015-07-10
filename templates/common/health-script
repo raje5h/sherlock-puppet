@@ -1,0 +1,41 @@
+hostname=`hostname`
+status=`curl -I "http://$hostname.nm.flipkart.com:25280/sherlock/intent?q=samsung" | grep "HTTP" | awk '{print $2}'`
+
+oldVersion=<%= @packageVersion %>
+newVersion=<%= @newversion %>
+currentRotationStatus="<%= @currentRotationStatus %>"
+
+newRotationStatus="`fk-w3-sherlock-admin status`"
+
+echo "====================================================="
+echo "Doing Health checks after package installation"
+echo "====================================================="
+
+if [ $status -eq 200 ]
+then
+    echo "========curl command successfull========"
+    echo "status = $status"
+else
+    echo "===========curl command failed=========="
+    echo "status = $status"
+    exit 2
+fi
+
+if [ "$oldVersion" == "$newVersion" ]
+then
+    echo "===package version check successfull===="
+    echo "package version = $oldVersion"
+else
+    echo "=====package version check failed======="
+    exit 2
+fi
+
+if [ "$currentRotationStatus" == "$newRotationStatus" ]
+then
+    echo "====rotation status check successfull==="
+    echo "rotation status = $newRotationStatus"
+    exit 0
+else
+    echo "======rotation status check failed======"
+    exit 2
+fi
