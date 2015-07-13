@@ -8,7 +8,7 @@ NEW_VERSION=`dpkg -l | grep fk-w3-sherlock | awk '{print $3}'`
 NEW_ROTATION_STATUS="`fk-w3-sherlock-admin status`"
 SOLR_API="http://$HOST_NAME:25280/solr/admin/cores?action=STATUS&wt=json"
 CORE_INIT_FAILURES=`curl -H "Accept: application/json" "$SOLR_API" | grep -Po '("initFailures":{})'`
-
+CORE_SUCCESS_CRITERIA="\"initFailures\":{}"
 echo "====================================================="
 echo "Doing Health checks after package installation"
 echo "====================================================="
@@ -41,11 +41,11 @@ else
     exit 2
 fi
 
-if [ "$CORE_INIT_FAILURES" != "" ]
+if [ "$CORE_INIT_FAILURES" == $CORE_SUCCESS_CRITERIA ]
 then
-    echo "======core initialisation failures======"
-    exit 2
-else
-    echo "=====core initialisation successful===="
+    echo "====core initialisation successful====="
     exit 0
+else
+    echo "======core initialisation failure======"
+    exit 2
 fi
