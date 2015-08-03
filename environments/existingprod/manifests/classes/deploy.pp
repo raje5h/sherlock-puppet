@@ -24,7 +24,7 @@ class deploy {
         require => Exec["fk-w3-sherlock"],
     }
 
-    file { "/home/udit.jain/health-script.sh":
+    file { "/home/vishal.goel/health-script.sh":
         owner => root,
         group => root,
         content => template("common/health-script"),
@@ -33,7 +33,7 @@ class deploy {
     }
 
     exec { "health-check-script":
-        command => "sh /home/udit.jain/health-script.sh",
+        command => "sh /home/vishal.goel/health-script.sh",
         path => [ "/bin/", "/usr/bin/" ],
         logoutput => true,
         timeout => 900,
