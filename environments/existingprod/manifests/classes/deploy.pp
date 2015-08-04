@@ -37,7 +37,7 @@ class deploy {
         path => [ "/bin/", "/usr/bin/" ],
         logoutput => true,
         timeout => 900,
-        require => File["/home/udit.jain/health-script.sh"],
+        require => File["/home/vishal.goel/health-script.sh"],
     }
 }
 
