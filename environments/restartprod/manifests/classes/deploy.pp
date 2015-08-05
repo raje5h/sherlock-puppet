@@ -1,6 +1,5 @@
 class deploy {
 
-    $packageVersion = hiera('version')
     $currentRotationStatus = $::rotationstatus
 
     exec { "admin-status":
@@ -9,8 +8,8 @@ class deploy {
             path => "/usr/bin/",
     }
 
-    if $currentRotationStatus == "In rotation"
-    {
+    if $currentRotationStatus == "In rotation" {
+
         exec { "stop":
             command => "sudo /etc/init.d/fk-w3-sherlock stop",
             logoutput => true,
