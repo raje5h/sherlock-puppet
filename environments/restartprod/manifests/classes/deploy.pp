@@ -2,11 +2,11 @@ class deploy {
 
     $currentRotationStatus = $::rotationstatus
 
-    exec { "admin-status":
+    /*exec { "admin-status":
             command => "sudo fk-w3-sherlock-admin status",
             logoutput => true,
             path => "/usr/bin/",
-    }
+    }*/
 
     if $currentRotationStatus == "In rotation" {
 

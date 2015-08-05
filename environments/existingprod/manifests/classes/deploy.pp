@@ -14,7 +14,7 @@ class deploy {
         path => "/usr/bin",
         logoutput => true,
         tries => 2,
-        timeout => 600,
+        timeout => 1200,
         require => Exec["apt-update"],
     }
 
@@ -36,7 +36,7 @@ class deploy {
         command => "sh /home/vishal.goel/health-script.sh",
         path => [ "/bin/", "/usr/bin/" ],
         logoutput => true,
-        timeout => 900,
+        timeout => 500,
         require => File["/home/vishal.goel/health-script.sh"],
     }
 }
