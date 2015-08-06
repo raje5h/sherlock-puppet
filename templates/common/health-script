@@ -1,3 +1,5 @@
+#!bin/sh
+
 HOST_NAME=`hostname`
 STATUS=`curl -I "http://$HOST_NAME.nm.flipkart.com:25280/sherlock/intent?q=samsung" | grep "HTTP" | awk '{print $2}'`
 
@@ -23,32 +25,32 @@ else
     exit 2
 fi
 
-echo "version=$VERSION_TO_DEPLOY"
-echo "new=$NEW_VERSION"
-
-if [ "$VERSION_TO_DEPLOY" == "$NEW_VERSION" ]
+if [ "$VERSION_TO_DEPLOY" = "$NEW_VERSION" ]
 then
     echo "===package version check successful===="
     echo "package version = $VERSION_TO_DEPLOY"
 else
     echo "=====package version check failed======="
+    echo "Version_to_deploy=$VERSION_TO_DEPLOY   New_version=$NEW_VERSION"
     exit 2
 fi
 
-if [ "$CURRENT_ROTATION_STATUS" == "$NEW_ROTATION_STATUS" ]
+if [ "$CURRENT_ROTATION_STATUS" = "$NEW_ROTATION_STATUS" ]
 then
     echo "====rotation status check successful==="
     echo "rotation status = $NEW_ROTATION_STATUS"
 else
     echo "======rotation status check failed======"
+    echo "current_rotation_status=$CURRENT_ROTATION_STATUS   New_rotation_status=$NEW_ROTATION_STATUS"
     exit 2
 fi
 
-if [ "$CORE_INIT_FAILURES" == $CORE_SUCCESS_CRITERIA ]
+if [ "$CORE_INIT_FAILURES" = "$CORE_SUCCESS_CRITERIA" ]
 then
     echo "====core initialisation successful====="
     exit 0
 else
     echo "======core initialisation failure======"
+    echo "core_init_failures=$CORE_INIT_FAILURES  core_success_criteria=$CORE_SUCCESS_CRITERIA"
     exit 2
 fi
