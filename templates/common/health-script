@@ -23,6 +23,9 @@ else
     exit 2
 fi
 
+echo "version=$VERSION_TO_DEPLOY"
+echo "new=$NEW_VERSION"
+
 if [ "$VERSION_TO_DEPLOY" == "$NEW_VERSION" ]
 then
     echo "===package version check successful===="
