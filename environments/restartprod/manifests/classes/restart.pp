@@ -1,4 +1,4 @@
-class deploy {
+class restart {
 
     $currentRotationStatus = $::rotationstatus
 
@@ -15,11 +15,14 @@ class deploy {
             require => Exec["stop"],
         }
 
-    exec { "admin-bir":
+    if $currentRotationStatus == "In rotation" {
+
+        exec { "admin-bir":
             command => "sudo fk-w3-sherlock-admin bir",
             logoutput => true,
             path => "/usr/bin/",
-            onlyif => [$currentRotationStatus == "In rotation"]
+            #onlyif => [$currentRotationStatus == "In rotation"]
             require => Exec["start"],
         }
+    }
 }
