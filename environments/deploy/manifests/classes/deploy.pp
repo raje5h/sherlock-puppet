@@ -1,4 +1,4 @@
-class deploy {
+class deploy { 
 
     $packageVersion = hiera('version')
     $currentRotationStatus = $::rotationstatus
