@@ -1,3 +1,3 @@
 node /^hudson-app/ {
-        include sample
+        include hudsonrestart
 }
