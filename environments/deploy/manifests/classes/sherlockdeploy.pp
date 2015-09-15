@@ -1,4 +1,4 @@
-class deploy { 
+class sherlockdeploy { 
 
     $packageVersion = hiera('version')
     $currentRotationStatus = $::rotationstatus

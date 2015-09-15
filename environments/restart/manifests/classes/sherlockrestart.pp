@@ -1,4 +1,4 @@
-class restart {
+class sherlockrestart {
 
     $currentRotationStatus = $::rotationstatus
 
