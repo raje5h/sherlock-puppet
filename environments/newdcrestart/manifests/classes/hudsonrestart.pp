@@ -10,6 +10,7 @@ class hudsonrestart {
             command => "sudo fk-w3-hudson-admin bir",
             logoutput => true,
             path => "/usr/bin/",
+            tries => 2,
             require => Exec["restart"],
         }
 }
