@@ -1,4 +1,4 @@
-class hudsonrestart {
+class sherlockrestart {
 
     exec { "restart":
             command => "sudo /etc/init.d/fk-w3-sherlock restart",
