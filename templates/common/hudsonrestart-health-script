@@ -1,0 +1,31 @@
+#!bin/sh
+
+HOST_NAME=`hostname`
+STATUS=`curl -I "http://hudson-vip.nm.flipkart.com:25290/hudson/v1/members" | grep "HTTP" | awk '{print $2}'`
+CURRENT_ROTATION_STATUS="<%= @currentRotationStatus %>"
+
+NEW_ROTATION_STATUS="`fk-w3-hudson-admin status`"
+
+echo "====================================================="
+echo "Doing Health checks after restart"
+echo "====================================================="
+
+if [ $STATUS -eq 200 ]
+then
+    echo "========curl command successful========"
+    echo "status = $STATUS"
+else
+    echo "===========curl command failed=========="
+    echo "status = $STATUS"
+    exit 2
+fi
+
+if [ "$CURRENT_ROTATION_STATUS" = "$NEW_ROTATION_STATUS" ]
+then
+    echo "====rotation status check successful==="
+    echo "rotation status = $NEW_ROTATION_STATUS"
+else
+    echo "======rotation status check failed======"
+    echo "current_rotation_status=$CURRENT_ROTATION_STATUS   New_rotation_status=$NEW_ROTATION_STATUS"
+    exit 2
+fi

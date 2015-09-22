@@ -14,4 +14,20 @@ class hudsonrestart {
             try_sleep => 10,
             require => Exec["restart"],
         }
+
+    file { "/home/vishal.goel/health-script.sh":
+        owner => root,
+        group => root,
+        content => template("common/hudsonrestart-health-script"),
+        mode => 777,
+        require => Exec["bir"],
+    }
+
+    exec { "health-check-script":
+        command => "sh /home/vishal.goel/health-script.sh",
+        path => [ "/bin/", "/usr/bin/" ],
+        logoutput => true,
+        timeout => 500,
+        require => File["/home/vishal.goel/health-script.sh"],
+    }
 }
