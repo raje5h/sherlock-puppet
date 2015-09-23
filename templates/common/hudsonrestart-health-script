@@ -1,7 +1,7 @@
 #!bin/sh
 
 HOST_NAME=`hostname`
-STATUS=`curl -I "http://hudson-vip.nm.flipkart.com:25290/hudson/v1/members" | grep "HTTP" | awk '{print $2}'`
+STATUS=`curl -i "http://hudson-vip.nm.flipkart.com:25290/hudson/v1/members" | grep "HTTP" | awk '{print $2}'`
 CURRENT_ROTATION_STATUS="<%= @currentRotationStatus %>"
 
 NEW_ROTATION_STATUS="`fk-w3-hudson-admin status`"

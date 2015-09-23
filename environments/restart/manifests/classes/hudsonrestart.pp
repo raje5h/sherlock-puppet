@@ -1,5 +1,7 @@
 class hudsonrestart {
 
+    $currentRotationStatus = $::hudsonrotationstatus
+
     exec { "restart":
             command => "sudo /etc/init.d/fk-w3-hudson restart",
             logoutput => true,
