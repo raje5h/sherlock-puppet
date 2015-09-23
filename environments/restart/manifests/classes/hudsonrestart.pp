@@ -1,6 +1,13 @@
 class hudsonrestart {
 
     $currentRotationStatus = $::hudsonrotationstatus
+    $packageVersion = hiera('version')
+
+    exec { "checking hiera":
+            command => "echo $packageVersion",
+            logoutput => true,
+            path => "/bin/",
+        }
 
     exec { "restart":
             command => "sudo /etc/init.d/fk-w3-hudson restart",
