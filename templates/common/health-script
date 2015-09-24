@@ -1,6 +1,6 @@
 #!bin/sh
 
-HOST_NAME=`hostname`
+HOST_NAME=`hostname -i`
 STATUS=`curl -I "http://$HOST_NAME.nm.flipkart.com:25280/sherlock/intent?q=samsung" | grep "HTTP" | awk '{print $2}'`
 
 VERSION_TO_DEPLOY=<%= @packageVersion %>
