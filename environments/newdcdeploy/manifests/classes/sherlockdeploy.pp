@@ -38,7 +38,7 @@ class sherlockdeploy {
          command => "sh /etc/default/health-script.sh",
          path => [ "/bin/", "/usr/bin/" ],
          logoutput => true,
-         require => Exec["/home/vishal.goel/health-script.sh"]
+         require => File["/etc/default/health-script.sh"]
     }
 }
 
