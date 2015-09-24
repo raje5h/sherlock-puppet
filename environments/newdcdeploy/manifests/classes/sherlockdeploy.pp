@@ -1,5 +1,8 @@
 class sherlockdeploy {
 
+    $packageVersion = $::sherlockversion
+    $currentRotationStatus = $::rotationstatus
+
     $envVersion = "HEAD"
     $envName = "sherlock-app-env"
     $host = "repo-svc-app-0001.nm.flipkart.com"
