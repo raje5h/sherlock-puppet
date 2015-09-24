@@ -29,7 +29,7 @@ class sherlockdeploy {
     file { "/etc/default/health-script.sh":
         owner => root,
         group => root,
-        content => template("common/health-script"),
+        content => template("common/sherlockdeploy-health-script"),
         mode => 777,
         require => Exec["fk-w3-sherlock"],
     }
