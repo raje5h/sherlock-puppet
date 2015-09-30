@@ -1,3 +1,3 @@
 node /^sherlock-app/ {
-        include sherlocksetalerts
+        include disablealerts
 }
