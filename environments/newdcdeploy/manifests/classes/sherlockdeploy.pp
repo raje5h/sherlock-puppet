@@ -40,6 +40,7 @@ class sherlockdeploy {
     exec { "health-check-script":
          command => "sh /etc/default/health-script.sh",
          path => [ "/bin/", "/usr/bin/" ],
+         tries => 2,
          logoutput => true,
          require => File["/etc/default/health-script.sh"]
     }
