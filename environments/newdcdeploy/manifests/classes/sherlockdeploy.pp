@@ -25,7 +25,7 @@ class sherlockdeploy {
         path => "/usr/bin",
         logoutput => false,
 	    tries => 2,
-        timeout => 600,
+        timeout => 1800,
         require => Exec["apt-get-update"],
     }
 
