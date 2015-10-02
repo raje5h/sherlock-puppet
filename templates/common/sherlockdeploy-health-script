@@ -26,7 +26,7 @@ else
     exit 2
 fi
 
-if [ "$CURRENT_ROTATION_STATUS" == "In rotation" ]
+if [ "$CURRENT_ROTATION_STATUS" = "In rotation" ]
 then
     if [ $ELB_HEALTHCHECK_API_STATUS -eq 200 ]
     then
