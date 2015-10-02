@@ -26,14 +26,27 @@ else
     exit 2
 fi
 
-if [ $ELB_HEALTHCHECK_API_STATUS -eq 200 ]
+if [ "$CURRENT_ROTATION_STATUS" == "in rotation" ]
 then
+    if [ $ELB_HEALTHCHECK_API_STATUS -eq 200 ]
+    then
     echo "========curl elb health check command successful========"
-    echo "status = $STATUS"
-else
+    echo "status = $ELB_HEALTHCHECK_API_STATUS"
+    else
     echo "===========curl elb health check command failed=========="
-    echo "status = $STATUS"
+    echo "status = $ELB_HEALTHCHECK_API_STATUS"
     exit 2
+    fi
+else
+    if [ $ELB_HEALTHCHECK_API_STATUS -eq 404 ]
+    then
+    echo "========curl elb health check command successful========"
+    echo "status = $ELB_HEALTHCHECK_API_STATUS"
+    else
+    echo "===========curl elb health check command failed=========="
+    echo "status = $ELB_HEALTHCHECK_API_STATUS"
+    exit 2
+    fi
 fi
 
 
