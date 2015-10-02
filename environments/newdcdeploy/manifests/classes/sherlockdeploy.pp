@@ -23,7 +23,7 @@ class sherlockdeploy {
     exec { "fk-w3-sherlock":
         command => "sudo apt-get -y --allow-unauthenticated --force-yes install fk-w3-sherlock",
         path => "/usr/bin",
-        logoutput => true,
+        logoutput => false,
 	    tries => 2,
         timeout => 600,
         require => Exec["apt-get-update"],
