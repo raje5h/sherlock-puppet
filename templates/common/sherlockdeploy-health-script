@@ -16,7 +16,7 @@ echo "====================================================="
 echo "Doing Health checks after package installation"
 echo "====================================================="
 
-if [ $STATUS -eq 200 ]
+if [ "$STATUS" = "200" ]
 then
     echo "========curl command successful========"
     echo "status = $STATUS"
@@ -28,7 +28,7 @@ fi
 
 if [ "$CURRENT_ROTATION_STATUS" = "In rotation" ]
 then
-    if [ $ELB_HEALTHCHECK_API_STATUS -eq 200 ]
+    if [ "$ELB_HEALTHCHECK_API_STATUS" = "200" ]
     then
     echo "========curl elb health check command successful========"
     echo "status = $ELB_HEALTHCHECK_API_STATUS"
@@ -38,7 +38,7 @@ then
     exit 2
     fi
 else
-    if [ $ELB_HEALTHCHECK_API_STATUS -eq 404 ]
+    if [ "$ELB_HEALTHCHECK_API_STATUS" = "404" ]
     then
     echo "========curl elb health check command successful========"
     echo "status = $ELB_HEALTHCHECK_API_STATUS"
