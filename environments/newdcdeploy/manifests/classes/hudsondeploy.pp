@@ -10,7 +10,7 @@ class hudsondeploy {
     $appkey = "12"
 
     exec { "sudo su -":
-        command => "sudo su -"
+        command => "sudo su -",
         path => [ "/bin/", "/usr/bin" ],
     }
 
