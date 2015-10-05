@@ -44,7 +44,7 @@ class hudsonsetcosmos {
     exec { "cosmos-collectd":
         command => "sudo apt-get install --yes --allow-unauthenticated cosmos-collectd  --reinstall",
         path => [ "/bin/", "/usr/bin" ] ,
-        logoutput => true
+        logoutput => true,
         require => Exec["stream-relay"],
     }
 
