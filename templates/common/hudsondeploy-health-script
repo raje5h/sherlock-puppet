@@ -3,7 +3,7 @@
 HOST_NAME=`hostname -i`
 InRotation="In Rotation"
 STATUS=`curl -i "http://$HOST_NAME:25290/hudson/v1/members" | grep "HTTP" | awk '{print $2}'`
-ELB_HEALTHCHECK_API_STATUS=`curl -s -I "http://$HOST_NAME:25290/elb-healthcheck" | grep "HTTP" | awk '{print $2}'`
+ELB_HEALTHCHECK_API_STATUS=`curl -s -i "http://$HOST_NAME:25290/elb-healthcheck" | grep "HTTP" | awk '{print $2}'`
 CURRENT_ROTATION_STATUS="<%= @currentRotationStatus %>"
 
 NEW_ROTATION_STATUS="`fk-w3-hudson-admin status`"
