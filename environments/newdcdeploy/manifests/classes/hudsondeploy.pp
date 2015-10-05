@@ -1,6 +1,7 @@
 class hudsondeploy {
 
-    $currentRotationStatus = $::rotationstatus
+    $currentRotationStatus = $::hudsonrotationstatus
+    $inRotation = "In Rotation"
 
     $envVersion = "12"
     $envName = "hudson-app-env"
@@ -28,7 +29,7 @@ class hudsondeploy {
         require => Exec["apt-get-update"],
     }
 
-    if $currentRotationStatus == "In rotation" {
+    if $currentRotationStatus == $inRotation { #either add script or factor for newrotationstatus
         exec { "bir":
             command => "sudo fk-w3-hudson-admin bir",
             path => "/usr/bin/",
@@ -38,7 +39,7 @@ class hudsondeploy {
         }
     }
 
-    file { "/etc/default/hudsondeploy-health-script.sh":
+    file { "/etc/default/hudsondeploy-health-script.sh": #add inside if
         owner => root,
         group => root,
         content => template("common/hudsondeploy-health-script"),
@@ -50,6 +51,7 @@ class hudsondeploy {
          command => "sh /etc/default/hudsondeploy-health-script.sh",
          path => [ "/bin/", "/usr/bin/" ],
          tries => 2,
+         try_sleep => 5,
          logoutput => true,
          require => File["/etc/default/hudsondeploy-health-script.sh"]
     }

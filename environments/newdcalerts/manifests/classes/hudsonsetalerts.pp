@@ -1,36 +1,25 @@
 class hudsonsetalerts {
 
-    exec { "Appending deb alertz-nsca-wrapper":
-        command => "echo 'deb http://10.47.2.22:80/repos/alertz-nsca-wrapper/4 /' | sudo tee --append /etc/apt/sources.list.d/hudson.list",
-        logoutput => true,
-        path => [ "/bin/", "/usr/bin" ]
-    }
+    $envVersion = "1"
+    $envName = "sherlock-alertz-env"
+    $repo_svc_host = "repo-svc-app-0001.nm.flipkart.com"
+    $repo_svc_port = "8080"
+    $appkey = "12"
 
-    exec { "Appending deb alertz-nagios-common":
-        command => "echo 'deb http://10.47.2.22:80/repos/alertz-nagios-common/5 /' | sudo tee --append /etc/apt/sources.list.d/hudson.list",
-        path => [ "/bin/", "/usr/bin" ] ,
-        logoutput => true,
-        require => Exec["Appending deb alertz-nsca-wrapper"],
-    }
-
-    exec { "Appending deb fk-ops-sgp-sherlock":
-        command => "echo 'deb http://10.47.2.22:80/repos/fk-ops-sgp-sherlock/9 /' | sudo tee --append /etc/apt/sources.list.d/hudson.list",
-        path => [ "/bin/", "/usr/bin" ] ,
-        logoutput => true,
-        require => Exec["Appending deb alertz-nagios-common"],
+    exec { "infra-cli-command":
+        command => "reposervice --host $repo_svc_host --port $repo_svc_port getenv --name $envName --appkey $appkey --version $envVersion > /etc/apt/sources.list.d/alertz.list",
+        path => "/usr/bin/",
     }
 
     exec { "apt-get update":
         command => "sudo apt-get update",
         path => "/usr/bin/",
-        logoutput => true,
-        require => Exec["Appending deb fk-ops-sgp-sherlock"],
+        require => Exec["infra-cli-command"],
     }
 
     exec { "apt-get install fk-nsca-wrapper":
         command => "sudo apt-get install --yes --allow-unauthenticated fk-nsca-wrapper",
         path => "/usr/bin/",
-        logoutput => true,
         require => Exec["apt-get update"],
     }
 

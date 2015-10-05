@@ -1,7 +1,9 @@
 #!bin/sh
 
-HOST_NAME=`hostname`
+HOST_NAME=`hostname i`
+InRotation="In Rotation"
 STATUS=`curl -i "http://$HOST_NAME:25290/hudson/v1/members" | grep "HTTP" | awk '{print $2}'`
+ELB_HEALTHCHECK_API_STATUS=`curl -s -I "http://$HOST_NAME:25290/elb-healthcheck" | grep "HTTP" | awk '{print $2}'`
 CURRENT_ROTATION_STATUS="<%= @currentRotationStatus %>"
 
 NEW_ROTATION_STATUS="`fk-w3-hudson-admin status`"
@@ -28,4 +30,27 @@ else
     echo "======rotation status check failed======"
     echo "current_rotation_status=$CURRENT_ROTATION_STATUS   New_rotation_status=$NEW_ROTATION_STATUS"
     exit 2
+fi
+
+if [ "$CURRENT_ROTATION_STATUS" = "$InRotation" ]
+then
+    if [ "$ELB_HEALTHCHECK_API_STATUS" = "200" ]
+    then
+    echo "========curl elb health check command successful========"
+    echo "status = $ELB_HEALTHCHECK_API_STATUS"
+    else
+    echo "===========curl elb health check command failed=========="
+    echo "status = $ELB_HEALTHCHECK_API_STATUS"
+    exit 2
+    fi
+else
+    if [ "$ELB_HEALTHCHECK_API_STATUS" = "404" ]
+    then
+    echo "========curl elb health check command successful========"
+    echo "status = $ELB_HEALTHCHECK_API_STATUS"
+    else
+    echo "===========curl elb health check command failed=========="
+    echo "status = $ELB_HEALTHCHECK_API_STATUS"
+    exit 2
+    fi
 fi
