@@ -8,19 +8,16 @@ class hudsondeploy {
     $repo_svc_host = "repo-svc-app-0001.nm.flipkart.com"
     $repo_svc_port = "8080"
     $appkey = "12"
-
-    
-
-    exec { "infra-cli-command":
-    	command => 'sudo su - && reposervice --host $repo_svc_host --port $repo_svc_port getenv --name $envName --appkey $appkey --version $envVersion > /etc/apt/sources.list.d/hudson.list',
-	    path => "/usr/bin/",
-        logoutput => true,
-    }
     
     exec { "apt-get-update":
         command => "sudo apt-get update",
         path => "/usr/bin/",
-	    require => Exec["infra-cli-command"],
+    }
+
+    exec { "java":
+        command => "sudo apt-get install --yes --allow-unauthenticated oracle-j2sdk1.8",
+        path => "/usr/bin",
+        require => Exec["apt-get-update"],
     }
     
     exec { "fk-w3-hudson":
@@ -29,7 +26,7 @@ class hudsondeploy {
         logoutput => false,
 	    tries => 2,
         timeout => 300,
-        require => Exec["apt-get-update"],
+        require => Exec["java"],
     }
 
     file { "/etc/default/hudsondeploy-health-script.sh":
