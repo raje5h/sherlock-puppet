@@ -22,7 +22,7 @@ else
     exit 2
 fi
 
-if [ "$CURRENT_ROTATION_STATUS" = "$NEW_ROTATION_STATUS" ]
+if [ "$CURRENT_ROTATION_STATUS" = "$NEW_ROTATION_STATUS" -o "$CURRENT_ROTATION_STATUS" = "" ]
 then
     echo "====rotation status check successful==="
     echo "rotation status = $NEW_ROTATION_STATUS"
