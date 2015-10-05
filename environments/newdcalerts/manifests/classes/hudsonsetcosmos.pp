@@ -12,7 +12,7 @@ class hudsonsetcosmos {
     }
 
     exec { "cosmos-service=hudson-app":
-        command => "sudo echo "hudson-app" > /etc/default/cosmos-service",
+        command => "sudo echo 'hudson-app' > /etc/default/cosmos-service",
         path => [ "/bin/", "/usr/bin" ] ,
         require => Exec["cosmos sources list"],
     }
