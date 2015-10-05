@@ -29,22 +29,12 @@ class hudsondeploy {
         require => Exec["apt-get-update"],
     }
 
-    if $currentRotationStatus == $inRotation { #either add script or factor for newrotationstatus
-        exec { "bir":
-            command => "sudo fk-w3-hudson-admin bir",
-            path => "/usr/bin/",
-            tries => 3,
-            try_sleep => 10,
-            require => Exec["fk-w3-hudson"],
-        }
-    }
-
-    file { "/etc/default/hudsondeploy-health-script.sh": #add inside if
+    file { "/etc/default/hudsondeploy-health-script.sh":
         owner => root,
         group => root,
         content => template("common/hudsondeploy-health-script"),
         mode => 777,
-        require => Exec["bir"],
+        require => Exec["fk-w3-hudson"],
     }
 
     exec { "health-check-script":
