@@ -9,10 +9,16 @@ class hudsondeploy {
     $repo_svc_port = "8080"
     $appkey = "12"
 
+    exec { "sudo su -":
+        command => "sudo su -"
+        path => [ "/bin/", "/usr/bin" ],
+    }
+
     exec { "infra-cli-command":
-    	command => "(sudo su - && reposervice --host $repo_svc_host --port $repo_svc_port getenv --name $envName --appkey $appkey --version $envVersion > /etc/apt/sources.list.d/hudson.list)",
+    	command => "reposervice --host $repo_svc_host --port $repo_svc_port getenv --name $envName --appkey $appkey --version $envVersion > /etc/apt/sources.list.d/hudson.list",
 	    path => "/usr/bin/",
         logoutput => true,
+        require => Exec["sudo su -"]
     }
     
     exec { "apt-get-update":
