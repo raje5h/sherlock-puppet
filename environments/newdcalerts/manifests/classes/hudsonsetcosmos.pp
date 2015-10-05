@@ -23,7 +23,7 @@ class hudsonsetcosmos {
         require => Exec["cosmos-service=hudson-app"],
     }
 
-    exec { "fk-ops-sgp-sherlock":
+    exec { "fk-ops-sgp-sherlock install":
         command => "sudo apt-get install --yes --allow-unauthenticated fk-ops-sgp-sherlock --reinstall",
         path => [ "/bin/", "/usr/bin" ] ,
         require => Exec["sudo apt-get update"],
@@ -32,7 +32,7 @@ class hudsonsetcosmos {
     exec { "fk-config-service-confd":
         command => "sudo apt-get install --yes --allow-unauthenticated fk-config-service-confd  --reinstall",
         path => [ "/bin/", "/usr/bin" ] ,
-        require => Exec["fk-ops-sgp-sherlock"],
+        require => Exec["fk-ops-sgp-sherlock install"],
     }
 
     exec { "stream-relay":
@@ -71,7 +71,7 @@ class hudsonsetcosmos {
         require => Exec["cosmos-statsd"],
     }
 
-    exec { "fk-ops-sgp-sherlock":
+    exec { "fk-ops-sgp-sherlock reinstall":
         command => "sudo apt-get install --yes --allow-unauthenticated fk-ops-sgp-sherlock --reinstall",
         path => [ "/bin/", "/usr/bin" ] ,
         require => Exec["cosmos-jmx restart"],
