@@ -10,7 +10,7 @@ class hudsondeploy {
     $appkey = "12"
 
     exec { "infra-cli-command":
-    	command => "sudo su- && reposervice --host $repo_svc_host --port $repo_svc_port getenv --name $envName --appkey $appkey --version $envVersion > /etc/apt/sources.list.d/hudson.list",
+    	command => "sudo su - && reposervice --host $repo_svc_host --port $repo_svc_port getenv --name $envName --appkey $appkey --version $envVersion > /etc/apt/sources.list.d/hudson.list",
 	    path => "/usr/bin/",
     }
     
