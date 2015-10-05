@@ -53,7 +53,7 @@ class hudsonsetcosmos {
         require => Exec["cosmos-collectd"],
     }
 
-    exec { "cosmos-jmx":
+    exec { "cosmos-jmx install":
         command => "sudo apt-get install --yes --allow-unauthenticated cosmos-jmx --reinstall",
         path => [ "/bin/", "/usr/bin" ] ,
         require => Exec["cosmos-tail"],
@@ -62,10 +62,10 @@ class hudsonsetcosmos {
     exec { "cosmos-statsd":
         command => "sudo apt-get install --yes --allow-unauthenticated cosmos-statsd  --reinstall",
         path => [ "/bin/", "/usr/bin" ] ,
-        require => Exec["cosmos-jmx"],
+        require => Exec["cosmos-jmx install"],
     }
 
-    exec { "cosmos-jmx":
+    exec { "cosmos-jmx restart":
         command => "sudo /etc/init.d/cosmos-jmx restart",
         path => [ "/bin/", "/usr/bin" ] ,
         require => Exec["cosmos-statsd"],
@@ -74,7 +74,7 @@ class hudsonsetcosmos {
     exec { "fk-ops-sgp-sherlock":
         command => "sudo apt-get install --yes --allow-unauthenticated fk-ops-sgp-sherlock --reinstall",
         path => [ "/bin/", "/usr/bin" ] ,
-        require => Exec["cosmos-jmx"],
+        require => Exec["cosmos-jmx restart"],
     }
 
 }
