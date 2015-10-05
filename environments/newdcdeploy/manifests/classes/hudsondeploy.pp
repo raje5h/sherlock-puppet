@@ -11,6 +11,7 @@ class hudsondeploy {
 
     exec { "sudo su -":
         command => "sudo su -",
+        logoutput => true,
         path => [ "/bin/", "/usr/bin" ],
     }
 
