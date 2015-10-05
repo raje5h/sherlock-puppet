@@ -6,8 +6,75 @@ class hudsonsetcosmos {
     $repo_svc_port = "8080"
     $appkey = "12"
 
-    exec { "infra-cli-command":
+    exec { "cosmos sources list":
         command => "reposervice --host $repo_svc_host --port $repo_svc_port getenv --name $envName --appkey $appkey --version $envVersion > /etc/apt/sources.list.d/hudson-cosmos.list",
         path => "/usr/bin/",
     }
+
+    exec { "cosmos-service=hudson-app":
+        command => "sudo echo "hudson-app" > /etc/default/cosmos-service",
+        path => [ "/bin/", "/usr/bin" ] ,
+        require => Exec["cosmos sources list"],
+    }
+
+    exec { "sudo apt-get update":
+        command => "sudo apt-get update ",
+        path => [ "/bin/", "/usr/bin" ] ,
+        require => Exec["cosmos-service=hudson-app"],
+    }
+
+    exec { "fk-ops-sgp-sherlock":
+        command => "sudo apt-get install --yes --allow-unauthenticated fk-ops-sgp-sherlock --reinstall",
+        path => [ "/bin/", "/usr/bin" ] ,
+        require => Exec["sudo apt-get update"],
+    }
+
+    exec { "fk-config-service-confd":
+        command => "sudo apt-get install --yes --allow-unauthenticated fk-config-service-confd  --reinstall",
+        path => [ "/bin/", "/usr/bin" ] ,
+        require => Exec["fk-ops-sgp-sherlock"],
+    }
+
+    exec { "stream-relay":
+        command => "sudo apt-get install --yes --allow-unauthenticated stream-relay --reinstall",
+        path => [ "/bin/", "/usr/bin" ] ,
+        require => Exec["fk-config-service-confd"],
+    }
+
+    exec { "cosmos-collectd":
+        command => "sudo apt-get install --yes --allow-unauthenticated cosmos-collectd  --reinstall",
+        path => [ "/bin/", "/usr/bin" ] ,
+        require => Exec["stream-relay"],
+    }
+
+    exec { "cosmos-tail":
+        command => "sudo apt-get install --yes --allow-unauthenticated cosmos-tail --reinstall",
+        path => [ "/bin/", "/usr/bin" ] ,
+        require => Exec["cosmos-collectd"],
+    }
+
+    exec { "cosmos-jmx":
+        command => "sudo apt-get install --yes --allow-unauthenticated cosmos-jmx --reinstall",
+        path => [ "/bin/", "/usr/bin" ] ,
+        require => Exec["cosmos-tail"],
+    }
+
+    exec { "cosmos-statsd":
+        command => "sudo apt-get install --yes --allow-unauthenticated cosmos-statsd  --reinstall",
+        path => [ "/bin/", "/usr/bin" ] ,
+        require => Exec["cosmos-jmx"],
+    }
+
+    exec { "cosmos-jmx":
+        command => "sudo /etc/init.d/cosmos-jmx restart",
+        path => [ "/bin/", "/usr/bin" ] ,
+        require => Exec["cosmos-statsd"],
+    }
+
+    exec { "fk-ops-sgp-sherlock":
+        command => "sudo apt-get install --yes --allow-unauthenticated fk-ops-sgp-sherlock --reinstall",
+        path => [ "/bin/", "/usr/bin" ] ,
+        require => Exec["cosmos-jmx"],
+    }
+
 }

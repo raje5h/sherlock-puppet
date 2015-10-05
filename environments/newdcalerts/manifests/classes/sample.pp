@@ -4,6 +4,12 @@ class sample {
         command => "sudo apt-get update",
         path => "/usr/bin/",
     }
+
+    exec { "":
+        command => "",
+        path => [ "/bin/", "/usr/bin" ] ,
+        require => Exec[""],
+    }
 }
 
 
