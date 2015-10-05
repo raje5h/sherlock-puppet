@@ -29,7 +29,7 @@ class sherlockdeploy {
         require => Exec["apt-get-update"],
     }
 
-    file { "/etc/default/health-script.sh":
+    file { "/etc/default/sherlockdeploy-health-script.sh":
         owner => root,
         group => root,
         content => template("common/sherlockdeploy-health-script"),
@@ -38,11 +38,11 @@ class sherlockdeploy {
     }
 
     exec { "health-check-script":
-         command => "sh /etc/default/health-script.sh",
+         command => "sh /etc/default/sherlockdeploy-health-script.sh",
          path => [ "/bin/", "/usr/bin/" ],
          tries => 2,
          logoutput => true,
-         require => File["/etc/default/health-script.sh"]
+         require => File["/etc/default/sherlockdeploy-health-script.sh"]
     }
 }
 
