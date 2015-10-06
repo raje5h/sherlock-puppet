@@ -16,10 +16,10 @@ echo "====================================================="
 if [ "$STATUS" = "200" ]
 then
     echo "========curl command successful========"
-    echo "status = $STATUS"
+    echo "status=$STATUS"
 else
     echo "===========curl command failed=========="
-    echo "status = $STATUS"
+    echo "status=$STATUS"
     exit 2
 fi
 

@@ -97,14 +97,12 @@ class sherlocksetup {
     exec { "apt-get install fk-nagios-common":
         command => "sudo apt-get install --yes --allow-unauthenticated fk-nagios-common",
         path => "/usr/bin/",
-        logoutput => true,
         require => Exec["apt-get install fk-nsca-wrapper"],
     }
 
     exec { "truncate nsca_wrapper":
         command => "sudo truncate --size=0 /etc/default/nsca_wrapper",
         path => "/usr/bin/",
-        logoutput => true,
         require => Exec["apt-get install fk-nagios-common"],
     }
 
