@@ -54,7 +54,7 @@ class sherlocksetup {
     file { "/etc/default/sherlocksetup-health-script.sh":
         owner => root,
         group => root,
-        content => template("common/sherlockdeploy-health-script"),
+        content => template("common/sherlocksetup-health-script"),
         mode => 777,
         require => Exec["fk-w3-sherlock"],
     }
