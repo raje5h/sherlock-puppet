@@ -2,6 +2,8 @@ class sherlocksetup {
 
     $envVersion = "12"
     $envName = "sherlock-app-env"
+    $alertzEnvName = "sherlock-alertz-env"
+    $alertzEnvVersion = "1"
     $repo_svc_host = "repo-svc-app-0001.nm.flipkart.com"
     $repo_svc_port = "8080"
     $appkey = "12"
@@ -15,6 +17,11 @@ class sherlocksetup {
         command => "sudo apt-get update",
         path => "/usr/bin/",
         require => Exec["infra-cli-source"],
+    }
+    
+    exec { "replace-db-mapping":
+        command => "sudo sed -i -- 's/10.32.81.155/10.33.81.152/g' /etc/hosts",
+        path => "/usr/bin/",
     }
     
     exec { "infra-cli-install":
@@ -41,7 +48,7 @@ class sherlocksetup {
         logoutput => false,
         tries => 2,
         timeout => 1800,
-        require => Exec["apt-get-update"],
+        require => [ Exec["apt-get-update"], Exec["replace-db-mapping"] ],
     }
 
     file { "/etc/default/sherlocksetup-health-script.sh":
@@ -59,6 +66,11 @@ class sherlocksetup {
          logoutput => true,
          require => File["/etc/default/sherlocksetup-health-script.sh"]
     }    
+    
+    exec { "alertz-source":
+        command => "reposervice --host $repo_svc_host --port $repo_svc_port getenv --name $alertzEnvName --appkey $appkey --version $alertzEnvVersion > /etc/apt/sources.list.d/alertz.list",
+        path => "/usr/bin/",
+    }
 }
 
 
