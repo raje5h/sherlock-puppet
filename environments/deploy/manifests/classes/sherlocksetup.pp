@@ -12,15 +12,21 @@ class sherlocksetup {
     }
 
     exec { "apt-get update":
-        command => "sudo apt-get install --yes --allow-unauthenticated infra-cli",
+        command => "sudo apt-get update",
         path => "/usr/bin/",
         require => Exec["infra-cli-source"],
+    }
+    
+    exec { "infra-cli-install":
+        command => "sudo apt-get install --yes --allow-unauthenticated infra-cli",
+        path => "/usr/bin/",
+        require => Exec["apt-get update"],
     }
 
     exec { "infra-cli-command":
         command => "reposervice --host $repo_svc_host --port $repo_svc_port getenv --name $envName --appkey $appkey --version $envVersion > /etc/apt/sources.list.d/sherlock.list",
         path => "/usr/bin/",
-        require => Exec["apt-get update"],
+        require => Exec["infra-cli-install"],
     }
     
     exec { "apt-get-update":
