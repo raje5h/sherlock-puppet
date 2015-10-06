@@ -70,6 +70,7 @@ class sherlocksetup {
     exec { "alertz-source":
         command => "reposervice --host $repo_svc_host --port $repo_svc_port getenv --name $alertzEnvName --appkey $appkey --version $alertzEnvVersion > /etc/apt/sources.list.d/alertz.list",
         path => "/usr/bin/",
+        require => Exec["infra-cli-install"],
     }
 }
 
