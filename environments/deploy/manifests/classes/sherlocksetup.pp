@@ -51,7 +51,7 @@ class sherlocksetup {
          path => [ "/bin/", "/usr/bin/" ],
          tries => 2,
          logoutput => true,
-         require => File["/etc/default/sherlockdeploy-health-script.sh"]
+         require => File["/etc/default/sherlocksetup-health-script.sh"]
     }    
 }
 
