@@ -18,12 +18,16 @@ class sherlocksetup {
         path => "/usr/bin/",
     }
 
-    exec { "apt-get update":
+    exec { "apt-get-update-infra":
         command => "sudo apt-get update",
         path => "/usr/bin/",
         require => Exec["infra-cli-source"],
     }
     
+    exec { "update-cluster-name":
+        command => "sudo echo 'sherlock-books-newdc' > /etc/default/cluster-name",
+        path => "/usr/bin/",
+    }
     exec { "replace-db-mapping":
         command => "sudo sed -i -- 's/10.32.81.155/10.33.81.152/g' /etc/hosts",
         path => "/usr/bin/",
@@ -32,19 +36,19 @@ class sherlocksetup {
     exec { "infra-cli-install":
         command => "sudo apt-get install --yes --allow-unauthenticated infra-cli",
         path => "/usr/bin/",
-        require => Exec["apt-get update"],
+        require => Exec["apt-get-update-infra"],
     }
 
-    exec { "infra-cli-command":
+    exec { "sherlock-source":
         command => "reposervice --host $repo_svc_host --port $repo_svc_port getenv --name $envName --appkey $appkey --version $envVersion > /etc/apt/sources.list.d/sherlock.list",
         path => "/usr/bin/",
         require => Exec["infra-cli-install"],
     }
     
-    exec { "apt-get-update":
+    exec { "apt-get-update-sherlock":
         command => "sudo apt-get update",
         path => "/usr/bin/",
-        require => Exec["infra-cli-command"],
+        require => Exec["sherlock-source"],
     }
     
     exec { "fk-w3-sherlock":
@@ -53,7 +57,7 @@ class sherlocksetup {
         logoutput => false,
         tries => 2,
         timeout => 1800,
-        require => [ Exec["apt-get-update"], Exec["replace-db-mapping"] ],
+        require => [ Exec["apt-get-update-sherlock"], Exec["replace-db-mapping"], Exec["update-cluster-name"] ],
     }
 
     file { "/etc/default/sherlocksetup-health-script.sh":
@@ -75,7 +79,7 @@ class sherlocksetup {
     exec { "alertz-source":
         command => "reposervice --host $repo_svc_host --port $repo_svc_port getenv --name $alertzEnvName --appkey $appkey --version $alertzEnvVersion > /etc/apt/sources.list.d/alertz.list",
         path => "/usr/bin/",
-        require => Exec["infra-cli-install"],
+        require => [ Exec["infra-cli-install"]],
     }
     
     exec { "apt-get-update-alertz":
@@ -107,28 +111,24 @@ class sherlocksetup {
     exec { "Setting team_name=sherlock":
         command => "echo 'team_name=\"sherlock\"'  | sudo tee --append /etc/default/nsca_wrapper",
         path => [ "/bin/", "/usr/bin" ] ,
-        logoutput => true,
         require => Exec["truncate nsca_wrapper"],
     }
 
     exec { "Setting nagios_server_ip=10.47.2.198":
         command => "echo 'nagios_server_ip=\"10.47.2.198\"'  | sudo tee --append /etc/default/nsca_wrapper",
         path => [ "/bin/", "/usr/bin" ] ,
-        logoutput => true,
         require => Exec["Setting team_name=sherlock"],
     }
 
     exec { "kill dpkg":
         command => "echo `ps -ef | grep dpkg | grep -v grep | awk '{print $2}'` | sudo kill -9 --",
         path => [ "/bin/", "/usr/bin" ] ,
-        logoutput => true,
         require => Exec["Setting nagios_server_ip=10.47.2.198"],
     }
 
     exec { "apt-get install fk-ops-sgp-sherlock":
         command => "sudo apt-get install --yes --allow-unauthenticated fk-ops-sgp-sherlock",
         path => "/usr/bin/",
-        logoutput => true,
         require => Exec["kill dpkg"],
     }
     
@@ -172,7 +172,6 @@ class sherlocksetup {
     exec { "cosmos-collectd":
         command => "sudo apt-get -o Dpkg::Options::='--force-confdef' install --yes --allow-unauthenticated cosmos-collectd  --reinstall",
         path => [ "/bin/", "/usr/bin" ] ,
-        logoutput => true,
         require => Exec["stream-relay"],
     }
 
