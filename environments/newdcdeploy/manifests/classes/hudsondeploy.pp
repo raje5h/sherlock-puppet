@@ -24,7 +24,7 @@ class hudsondeploy {
         command => "sudo apt-get -y --allow-unauthenticated --force-yes install fk-w3-hudson",
         path => "/usr/bin",
         logoutput => false,
-	    tries => 2,
+        tries => 2,
         timeout => 300,
         require => Exec["java"],
     }
@@ -46,5 +46,4 @@ class hudsondeploy {
          require => File["/etc/default/hudsondeploy-health-script.sh"]
     }
 }
-
 
