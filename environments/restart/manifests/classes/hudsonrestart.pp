@@ -9,7 +9,7 @@ class hudsonrestart {
         }    
     
        
-       exec { "bir":
+       exec { "bring-in-rotation":
             command => "sudo fk-w3-hudson-admin bir",
             logoutput => true,
             path => "/usr/bin/",
@@ -24,7 +24,7 @@ class hudsonrestart {
             group => root,
             content => template("common/hudsonrestart-health-script"),
             mode => 777,
-            require => Exec["bir"],
+            require => Exec["bring-in-rotation"],
       }
 
       exec { "health-check-script":
