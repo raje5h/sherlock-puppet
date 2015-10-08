@@ -17,14 +17,14 @@ class sherlockdeploy {
     exec { "apt-get-update":
         command => "sudo apt-get update",
         path => "/usr/bin/",
-	    require => Exec["infra-cli-command"],
+	      require => Exec["infra-cli-command"],
     }
     
     exec { "fk-w3-sherlock":
         command => "sudo apt-get -y --allow-unauthenticated --force-yes install fk-w3-sherlock",
         path => "/usr/bin",
         logoutput => false,
-	    tries => 2,
+	      tries => 2,
         timeout => 1800,
         require => Exec["apt-get-update"],
     }
@@ -45,5 +45,3 @@ class sherlockdeploy {
          require => File["/etc/default/sherlockdeploy-health-script.sh"]
     }
 }
-
-
