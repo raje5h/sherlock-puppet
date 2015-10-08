@@ -8,17 +8,17 @@ class hudsonrestart {
             path => "/usr/bin/",
         }    
     
-
-    if $currentRotationStatus == "In rotation" {
+       
        exec { "bir":
             command => "sudo fk-w3-hudson-admin bir",
             logoutput => true,
+            onlyif => '$currentRotationStatus == "In rotation"',
             path => "/usr/bin/",
             tries => 3,
             try_sleep => 10,
             require => Exec["restart"],
         }
-    }
+   
 
     file { "/etc/default/restart-health-script.sh":
         owner => root,
