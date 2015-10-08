@@ -31,7 +31,7 @@ class hudsondeploy {
         logoutput => false,
         tries => 2,
         timeout => 300,
-        require => Exec["install-java"],
+        require => Exec["apt-get-update"],
     }
 
     file { "/etc/default/hudsondeploy-health-script.sh":
