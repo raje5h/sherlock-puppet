@@ -1,3 +1,3 @@
-node /^hudson-app/ {
+node /^sherlock-app/ {
         include hudsonsetcosmos
 }
