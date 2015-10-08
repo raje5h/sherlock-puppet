@@ -9,8 +9,8 @@ class hudsondeploy {
     $repo_svc_port = "8080"
     $appkey = "12"
     
-    exec { "set-fd-limits":
-        command => "sudo /usr/local/sbin/fk-ulimit.sh -n 500000 ",
+    exec { "hudson-source":
+        command => "sudo reposervice --host $repo_svc_host --port $repo_svc_port getenv --name $envName --appkey $appkey --version $envVersion  | sudo tee /etc/apt/sources.list.d/hudson.list ",
         path => "/usr/bin/",
     }
     
@@ -21,7 +21,7 @@ class hudsondeploy {
     exec { "java":
         command => "sudo apt-get install --yes --allow-unauthenticated oracle-j2sdk1.8",
         path => "/usr/bin",
-        require => [Exec["apt-get-update"], Exec["set-fd-limits"]],
+        require =>Exec["hudson-source"]
     }
     
     exec { "fk-w3-hudson":
@@ -30,7 +30,7 @@ class hudsondeploy {
         logoutput => false,
         tries => 2,
         timeout => 300,
-        require => Exec["java"],
+        require => Exec["install-java"],
     }
 
     file { "/etc/default/hudsondeploy-health-script.sh":

@@ -3,10 +3,13 @@
 HOST_NAME=`hostname`
 STATUS=`curl -I "http://$HOST_NAME:25280/sherlock/intent?q=samsung" | grep "HTTP" | awk '{print $2}'`
 ELB_HEALTHCHECK_API_STATUS=`curl -s -I "http://$HOST_NAME:25280/elb-healthcheck" | grep "HTTP" | awk '{print $2}'`
+
 #VERSION_TO_DEPLOY="<%= @packageVersion %>"
+
 CURRENT_ROTATION_STATUS="<%= @currentRotationStatus %>"
 
 #NEW_VERSION=`dpkg -l | grep fk-w3-sherlock | awk '{print $3}'`
+
 NEW_ROTATION_STATUS="`fk-w3-sherlock-admin status`"
 SOLR_API="http://$HOST_NAME:25280/solr/admin/cores?action=STATUS&wt=json"
 

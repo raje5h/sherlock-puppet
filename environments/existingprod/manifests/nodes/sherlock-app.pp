@@ -1,3 +1,4 @@
 node /^sherlock-app/ {
-        include deploy
+        include setup
+        
 }
