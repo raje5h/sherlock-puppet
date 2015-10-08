@@ -19,19 +19,19 @@ class hudsonrestart {
         }
    
 
-    file { "/etc/default/restart-health-script.sh":
-        owner => root,
-        group => root,
-        content => template("common/hudsonrestart-health-script"),
-        mode => 777,
-        require => Exec["bir"],
-    }
+      file { "/etc/default/restart-health-script.sh":
+            owner => root,
+            group => root,
+            content => template("common/hudsonrestart-health-script"),
+            mode => 777,
+            require => Exec["bir"],
+      }
 
-    exec { "health-check-script":
-        command => "sh /etc/default/restart-health-script.sh",
-        path => [ "/bin/", "/usr/bin/" ],
-        logoutput => true,
-        timeout => 500,
-        require => File["/etc/default/restart-health-script.sh"],
-    }
+      exec { "health-check-script":
+            command => "sh /etc/default/restart-health-script.sh",
+            path => [ "/bin/", "/usr/bin/" ],
+            logoutput => true,
+            timeout => 500,
+            require => File["/etc/default/restart-health-script.sh"],
+      }
 }
