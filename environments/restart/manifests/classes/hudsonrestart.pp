@@ -1,30 +1,26 @@
 class hudsonrestart {
 
     $currentRotationStatus = $::hudsonrotationstatus
-    $packageVersion = hiera('version')
-
-    exec { "checking hiera":
-            command => "echo $packageVersion",
-            logoutput => true,
-            path => "/bin/",
-        }
-
-    exec { "restart":
+     
+      exec { "restart":
             command => "sudo /etc/init.d/fk-w3-hudson restart",
             logoutput => true,
             path => "/usr/bin/",
-        }
+        }    
+    
 
-    exec { "bir":
+    if $currentRotationStatus == "In rotation" {
+       exec { "bir":
             command => "sudo fk-w3-hudson-admin bir",
             logoutput => true,
             path => "/usr/bin/",
-            tries => 5,
+            tries => 3,
             try_sleep => 10,
             require => Exec["restart"],
         }
+    }
 
-    file { "/home/vishal.goel/health-script.sh":
+    file { "/etc/default/restart-health-script.sh":
         owner => root,
         group => root,
         content => template("common/hudsonrestart-health-script"),
@@ -33,10 +29,10 @@ class hudsonrestart {
     }
 
     exec { "health-check-script":
-        command => "sh /home/vishal.goel/health-script.sh",
+        command => "sh /etc/default/restart-health-script.sh",
         path => [ "/bin/", "/usr/bin/" ],
         logoutput => true,
         timeout => 500,
-        require => File["/home/vishal.goel/health-script.sh"],
+        require => File["/etc/default/restart-health-script.sh"],
     }
 }
