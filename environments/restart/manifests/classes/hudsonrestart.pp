@@ -9,6 +9,7 @@ class hudsonrestart {
         }    
     
        if $currentRotationStatus == "In rotation" {
+       
           exec { "bring-in-rotation":
             command => "sudo fk-w3-hudson-admin bir",
             logoutput => true,
