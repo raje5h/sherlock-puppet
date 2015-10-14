@@ -16,9 +16,11 @@ class sample {
 
     }
 
-    exec { "apt-update-3":
-        command => "sudo apt-get update",
-        path => "/usr/bin/",
-        require => Exec["apt-update-2"]
+    file { "/etc/default/restart-health-script.sh":
+            owner => root,
+            group => root,
+            content => template("common/hudsonrestart-health-script"),
+            mode => 777,
+            require => Exec["apt-update-2"],
     }
 }
