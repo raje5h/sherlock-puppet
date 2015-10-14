@@ -12,7 +12,7 @@ class sample {
         exec { "apt-update-2":
         command => "sudo apt-get update",
         path => "/usr/bin/",
-        onlyif => [$x == "Out of rotation"]
+        onlyif => [ "$x == 'Out of rotation'" ]
         }
     #}
 }
