@@ -1,13 +1,13 @@
 class sample {
 
-	$x = "a"
+	$x = $::rotationstatus
     
     exec { "apt-update-1":
         command => "sudo apt-get update",
         path => "/usr/bin/",
     }
 
-    if $x == "a" {
+    if $x == "Out of rotation" {
 
         exec { "apt-update-2":
         command => "sudo apt-get update",
