@@ -14,11 +14,11 @@ class sample {
         path => "/usr/bin/",
         }
 
+    }
+
     exec { "apt-update-3":
         command => "sudo apt-get update",
         path => "/usr/bin/",
         require => Exec["apt-update-2"]
-    }
-
     }
 }
