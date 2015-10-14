@@ -7,7 +7,7 @@ class sample {
         path => "/usr/bin/",
     }
 
-    if $currentRotationStatus == 'a' {
+    if $x == 'a' {
 
         exec { "apt-update-2":
         command => "sudo apt-get update",
