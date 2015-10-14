@@ -7,15 +7,16 @@ class sample {
         path => "/usr/bin/",
     }
 
-    if ($x == "In rotation") {
+    #if ($x == "In rotation") {
 
-    	$flag = 1
+    	#$flag = 1
         exec { "apt-update-2":
         command => "sudo apt-get update",
         path => "/usr/bin/",
+        onlyif => 'test "$x" == "In rotation" '
         }
 
-    }
+    #}
 
 	if ($flag == 1) {
     	file { "/etc/default/restart-health-script.sh":
