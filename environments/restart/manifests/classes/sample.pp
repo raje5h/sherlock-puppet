@@ -8,7 +8,8 @@ class sample {
     }
 
     if ($x == "In rotation") {
-    	flag = 1
+
+    	$flag = 1
         exec { "apt-update-2":
         command => "sudo apt-get update",
         path => "/usr/bin/",
