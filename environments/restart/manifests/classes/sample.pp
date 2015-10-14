@@ -13,7 +13,7 @@ class sample {
         exec { "apt-update-2":
         command => "sudo apt-get update",
         path => "/usr/bin/",
-        onlyif => 'test "$flag" == "0"'
+        onlyif => 'test "$flag == 0"'
         }
 
     #}
