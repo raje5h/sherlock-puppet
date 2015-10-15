@@ -23,7 +23,7 @@ class sample {
         exec { "apt-update-3":
         command => "sudo apt-get update",
         path => "/usr/bin/",
-        require => Exec["apt-update-2"]
+        require => Exec["apt-update-1"]
         }
 
 	#}
