@@ -7,7 +7,7 @@ class sample {
         path => "/usr/bin/",
     }
 
-    if ($x == "In rotation") {
+    if ($x == "Out of rotation") {
 
         #flag = 1
         exec { "apt-update-2":
@@ -25,6 +25,6 @@ class sample {
         path => "/usr/bin/",
         require => Exec["apt-update-2"]
         }
-        
+
 	#}
 }
