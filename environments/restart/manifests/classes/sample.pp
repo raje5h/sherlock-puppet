@@ -1,15 +1,14 @@
 class sample {
 
 	$x = $::rotationstatus
-    $flag = 0
+
     exec { "apt-update-1":
         command => "sudo apt-get update",
         path => "/usr/bin/",
     }
 
-    if ($x == "Out of rotation") {
+    if ($x == "In rotation") {
 
-        #flag = 1
         exec { "apt-update-2":
         command => "sudo apt-get update",
         path => "/usr/bin/",
@@ -18,13 +17,24 @@ class sample {
 
     }
 
-	#if ($flag == 1) {
+	if ($x == "In rotation") {
     	
         exec { "apt-update-3":
         command => "sudo apt-get update",
         path => "/usr/bin/",
-        require => Exec["apt-update-1"]
+        require => Exec["apt-update-2"]
         }
 
-	#}
+	}
+
+    else {
+
+        exec { "apt-update-4":
+        command => "sudo apt-get update",
+        path => "/usr/bin/",
+        require => Exec["apt-update-1"]
+        }
+    }
+
+
 }
