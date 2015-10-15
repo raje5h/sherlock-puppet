@@ -7,22 +7,22 @@ class sample {
         path => "/usr/bin/",
     }
 
-    #if ($x == "In rotation") {
+    if ($x == "In rotation") {
 
-    #    $flag = 1
-    #    exec { "apt-update-2":
-    #    command => "sudo apt-get update",
-    #    path => "/usr/bin/",
-    #    onlyif => 'test "$flag == 1"'
-    #    }
+        $flag = 1
+        exec { "apt-update-2":
+        command => "sudo apt-get update",
+        path => "/usr/bin/",
+        onlyif => 'test "$flag == 1"'
+        }
 
-    #}
+    }
 
-	if ($flag == 1) {
+	#if ($flag == 1) {
     	exec { "apt-update-3":
         command => "sudo apt-get update",
         path => "/usr/bin/",
-        #require => Exec["apt-update-2"]
+        require => Exec["apt-update-2"]
         }
-	}
+	#}
 }
