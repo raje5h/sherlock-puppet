@@ -9,7 +9,7 @@ class sample {
 
     if ($x == "In rotation") {
 
-        flag = 1
+        #flag = 1
         exec { "apt-update-2":
         command => "sudo apt-get update",
         path => "/usr/bin/",
@@ -19,10 +19,12 @@ class sample {
     }
 
 	#if ($flag == 1) {
-    	exec { "apt-update-3":
+    	
+        exec { "apt-update-3":
         command => "sudo apt-get update",
         path => "/usr/bin/",
         require => Exec["apt-update-2"]
         }
+        
 	#}
 }
