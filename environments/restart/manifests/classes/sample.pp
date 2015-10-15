@@ -7,7 +7,7 @@ class sample {
         path => "/usr/bin/",
     }
 
-    if ($x == "In rotation") {
+    if ($x == "Out of rotation") {
 
         exec { "apt-update-2":
         command => "sudo apt-get update",
@@ -17,7 +17,7 @@ class sample {
 
     }
 
-	if ($x == "In rotation") {
+	if ($x == "Out of rotation") {
     	
         exec { "apt-update-3":
         command => "sudo apt-get update",
