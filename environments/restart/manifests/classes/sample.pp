@@ -18,7 +18,7 @@ class sample {
 
     #}
 
-	if ($flag == 0) {
+	if ($flag == 1) {
     	exec { "apt-update-3":
         command => "sudo apt-get update",
         path => "/usr/bin/",
