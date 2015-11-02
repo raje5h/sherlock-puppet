@@ -25,7 +25,7 @@ class freshsherlocksetup {
     }
     
     exec { "update-cluster-name":
-        command => "sudo echo 'sherlock-books-newdc' > /etc/default/cluster-name",
+        command => "sudo echo 'sherlock-electronics-newdc' > /etc/default/cluster-name",
         path => "/usr/bin/",
         require => Exec["apt-get-update-infra"],
     }
