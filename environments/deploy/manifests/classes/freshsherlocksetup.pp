@@ -1,4 +1,4 @@
-class sherlocksetup {
+class freshsherlocksetup {
 
     $envVersion = "12"
     $envName = "sherlock-app-env"
