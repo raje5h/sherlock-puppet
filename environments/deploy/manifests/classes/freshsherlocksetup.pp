@@ -32,7 +32,7 @@ class freshsherlocksetup {
     
     exec { "add-db-mapping":
         command => "echo -e '10.65.30.211 pf-config-publish-alt.nm.flipkart.com\n10.65.100.54 ops-statsd.nm.flipkart.com\n10.65.38.79 pf-config-manage.nm.flipkart.com\n10.33.81.152 sherlock-app-slave-db.nm.flipkart.com\n10.33.81.152 sherlock-slave-db.nm.flipkart.com' | sudo tee --append /etc/hosts",
-        path => "/usr/bin/",
+        path => [ "/bin/", "/usr/bin" ] ,
         require => Exec["update-cluster-name"],
     }
     
