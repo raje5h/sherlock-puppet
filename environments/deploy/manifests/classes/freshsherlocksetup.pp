@@ -30,8 +30,8 @@ class sherlocksetup {
         require => Exec["apt-get-update-infra"],
     }
     
-    exec { "replace-db-mapping":
-        command => "sudo sed -i -- 's/10.32.81.155/10.33.81.152/g' /etc/hosts",
+    exec { "add-db-mapping":
+        command => "echo -e '10.65.30.211 pf-config-publish-alt.nm.flipkart.com\n10.65.100.54 ops-statsd.nm.flipkart.com\n10.65.38.79 pf-config-manage.nm.flipkart.com\n10.33.81.152 sherlock-app-slave-db.nm.flipkart.com\n10.33.81.152 sherlock-slave-db.nm.flipkart.com' | sudo tee --append /etc/hosts",
         path => "/usr/bin/",
         require => Exec["update-cluster-name"],
     }
@@ -39,7 +39,7 @@ class sherlocksetup {
     exec { "infra-cli-install":
         command => "sudo apt-get install --yes --allow-unauthenticated infra-cli",
         path => "/usr/bin/",
-        require => Exec["replace-db-mapping"],
+        require => Exec["add-db-mapping"],
     }
 
     exec { "sherlock-source":
@@ -60,7 +60,7 @@ class sherlocksetup {
         logoutput => false,
         tries => 2,
         timeout => 1800,
-        require => [ Exec["apt-get-update-sherlock"], Exec["replace-db-mapping"], Exec["update-cluster-name"] ],
+        require => [ Exec["apt-get-update-sherlock"], Exec["add-db-mapping"], Exec["update-cluster-name"] ],
     }
 
     file { "/etc/default/sherlocksetup-health-script.sh":
@@ -82,7 +82,7 @@ class sherlocksetup {
     exec { "alertz-source":
         command => "reposervice --host $repo_svc_host --port $repo_svc_port getenv --name $alertzEnvName --appkey $appkey --version $alertzEnvVersion > /etc/apt/sources.list.d/alertz.list",
         path => "/usr/bin/",
-        require => [ Exec["infra-cli-install"]],
+        require => Exec["infra-cli-install"],
     }
     
     exec { "apt-get-update-alertz":
@@ -132,7 +132,6 @@ class sherlocksetup {
         path => "/usr/bin/",
         require => Exec["kill dpkg"],
     }
-    
     
     exec { "cosmos sources list":
         command => "reposervice --host $repo_svc_host --port $repo_svc_port getenv --name $cosmosEnvName --appkey $appkey --version $cosmosEnvVersion > /etc/apt/sources.list.d/sherlock-cosmos.list",
@@ -206,5 +205,3 @@ class sherlocksetup {
         require => Exec["cosmos-jmx restart"],
     }
 }
-
-
