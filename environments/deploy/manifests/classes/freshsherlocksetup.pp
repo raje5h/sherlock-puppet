@@ -30,16 +30,34 @@ class freshsherlocksetup {
         require => Exec["apt-get-update-infra"],
     }
     
-    exec { "add-db-mapping":
-        command => "echo -e '10.65.30.211 pf-config-publish-alt.nm.flipkart.com\n10.65.100.54 ops-statsd.nm.flipkart.com\n10.65.38.79 pf-config-manage.nm.flipkart.com\n10.33.81.152 sherlock-app-slave-db.nm.flipkart.com' | sudo tee -a /etc/hosts",
+    exec { "add-db-mapping1":
+        command => "echo '10.65.30.211 pf-config-publish-alt.nm.flipkart.com' | sudo tee -a /etc/hosts",
         path => [ "/bin/", "/usr/bin" ] ,
         require => Exec["update-cluster-name"],
+    }
+
+    exec { "add-db-mapping2":
+        command => "echo '10.65.100.54 ops-statsd.nm.flipkart.com' | sudo tee -a /etc/hosts",
+        path => [ "/bin/", "/usr/bin" ] ,
+        require => Exec["add-db-mapping1"],
+    }
+
+    exec { "add-db-mapping3":
+        command => "echo '10.65.38.79 pf-config-manage.nm.flipkart.com' | sudo tee -a /etc/hosts",
+        path => [ "/bin/", "/usr/bin" ] ,
+        require => Exec["add-db-mapping2"],
+    }
+
+    exec { "add-db-mapping4":
+        command => "echo '10.33.81.152 sherlock-app-slave-db.nm.flipkart.com' | sudo tee -a /etc/hosts",
+        path => [ "/bin/", "/usr/bin" ] ,
+        require => Exec["add-db-mapping3"],
     }
     
     exec { "infra-cli-install":
         command => "sudo apt-get install --yes --allow-unauthenticated infra-cli",
         path => "/usr/bin/",
-        require => Exec["add-db-mapping"],
+        require => Exec["add-db-mapping4"],
     }
 
     exec { "sherlock-source":
