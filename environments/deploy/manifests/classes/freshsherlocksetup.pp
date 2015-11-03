@@ -1,6 +1,6 @@
 class freshsherlocksetup {
 
-    $envVersion = "12"
+    $envVersion = "14"
     $envName = "sherlock-app-env"
     
     $alertzEnvName = "sherlock-alertz-env"
