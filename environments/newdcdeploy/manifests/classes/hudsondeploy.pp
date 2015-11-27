@@ -9,11 +9,6 @@ class hudsondeploy {
     $repo_svc_port = "8080"
     $appkey = "12"
     
-    exec { "fd-limits":
-        command => "sudo /usr/local/sbin/fk-ulimit.sh -n 500000",
-        path => "/usr/bin/",
-    }
-    
     exec { "hudson-source":
         command => "sudo reposervice --host $repo_svc_host --port $repo_svc_port getenv --name $envName --appkey $appkey --version $envVersion  | sudo tee /etc/apt/sources.list.d/hudson.list ",
         path => "/usr/bin/",
@@ -22,7 +17,8 @@ class hudsondeploy {
     exec { "apt-get-update":
         command => "sudo apt-get update",
         path => "/usr/bin/",
-        require => [ Exec["hudson-source"], Exec["fd-limits"] ]
+        logoutput => false,
+        require => Exec["hudson-source"]
     }
     
     exec { "fk-w3-hudson":
