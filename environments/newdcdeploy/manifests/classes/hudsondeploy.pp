@@ -1,6 +1,7 @@
 class hudsondeploy {
 
     $currentRotationStatus = $::hudsonrotationstatus
+    
     $inRotation = "In Rotation"
     $envVersion = "14"
     $envName = "sherlock-hudson-env"
