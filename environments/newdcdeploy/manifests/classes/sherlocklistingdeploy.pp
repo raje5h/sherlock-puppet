@@ -3,7 +3,7 @@ class sherlocklistingdeploy {
     $packageVersion = $::sherlockversion
     $currentRotationStatus = $::rotationstatus
 
-    $envVersion = "2"
+    $envVersion = "3"
     $envName = "sherlock-app-listing-env"
     $repo_svc_host = "repo-svc-app-0001.nm.flipkart.com"
     $repo_svc_port = "8080"
