@@ -3,7 +3,7 @@ class sherlockdeploy {
     $packageVersion = $::sherlockversion
     $currentRotationStatus = $::rotationstatus
 
-    $envVersion = "28"
+    $envVersion = "29"
     $envName = "sherlock-app-env"
     $repo_svc_host = "repo-svc-app-0001.nm.flipkart.com"
     $repo_svc_port = "8080"
@@ -21,11 +21,11 @@ class sherlockdeploy {
     }
     
     exec { "fk-w3-sherlock":
-        command => "sudo apt-get -y --allow-unauthenticated --force-yes install fk-w3-sherlock",
+        command => "sudo apt-get -y --allow-unauthenticated --force-yes install fk-w3-sherlock=3.1.13",
         path => "/usr/bin",
         logoutput => false,
 	      tries => 2,
-        timeout => 2700,
+        timeout => 3000,
         require => Exec["apt-get-update"],
     }
 
