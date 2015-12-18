@@ -6,7 +6,6 @@ class hudsonrestart {
             path => "/usr/bin/",
         }
 
-    
     exec { "bir":
             command => "sudo fk-w3-hudson-admin bir",
             logoutput => true,
