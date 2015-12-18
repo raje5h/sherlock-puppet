@@ -8,17 +8,10 @@ class sherlockdeploy {
     $repo_svc_host = "repo-svc-app-0001.nm.flipkart.com"
     $repo_svc_port = "8080"
     $appkey = "12"
-    
-    exec { "infra-cli-install":
-        command => "sudo apt-get install --yes --allow-unauthenticated infra-cli",
-        path => "/usr/bin/",
-        require => Exec["apt-get-update-infra"],
-    }
 
     exec { "infra-cli-command":
     	command => "reposervice --host $repo_svc_host --port $repo_svc_port getenv --name $envName --appkey $appkey --version $envVersion > /etc/apt/sources.list.d/sherlock.list",
 	    path => "/usr/bin/",
-	    require => Exec["infra-cli-install"],
     }
     
     exec { "apt-get-update":
