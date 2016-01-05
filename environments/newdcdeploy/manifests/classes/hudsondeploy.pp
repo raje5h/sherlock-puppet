@@ -3,7 +3,7 @@ class hudsondeploy {
     $currentRotationStatus = $::hudsonrotationstatus
     
     $inRotation = "In Rotation"
-    $envVersion = "20"
+    $envVersion = "21"
     $envName = "sherlock-hudson-env"
     $repo_svc_host = "repo-svc-app-0001.nm.flipkart.com"
     $repo_svc_port = "8080"
