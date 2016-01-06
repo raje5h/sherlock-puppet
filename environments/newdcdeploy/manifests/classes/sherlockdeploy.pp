@@ -3,12 +3,12 @@ class sherlockdeploy {
     $packageVersion = $::sherlockversion
     $currentRotationStatus = $::rotationstatus
 
-    $envVersion = "30"
+    $envVersion = "31"
     $envName = "sherlock-app-env"
     $repo_svc_host = "repo-svc-app-0001.nm.flipkart.com"
     $repo_svc_port = "8080"
     $appkey = "12"
-
+    
     exec { "infra-cli-source":
         command => "sudo echo 'deb http://10.47.2.22:80/repos/infra-cli/3 /' > /etc/apt/sources.list.d/infra-cli-svc.list",
         path => "/usr/bin/",
