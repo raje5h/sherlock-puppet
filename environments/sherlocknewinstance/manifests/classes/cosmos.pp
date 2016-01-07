@@ -9,6 +9,7 @@ class cosmos {
     exec { "cosmos-sources-list":
         command => "reposervice --host $repo_svc_host --port $repo_svc_port getenv --name $envName --appkey $appkey --version $envVersion > /etc/apt/sources.list.d/sherlock-cosmos.list",
         path => "/usr/bin/",
+        require => Exec["fk-w3-sherlock"],
     }
 
     exec { "cosmos-service-solr-app":
