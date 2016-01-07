@@ -25,6 +25,7 @@ class sherlockdeploy {
         path => "/usr/bin/",
         require => Exec["apt-get-update-infra"],
     }
+    
     exec { "infra-cli-command":
     	  command => "reposervice --host $repo_svc_host --port $repo_svc_port getenv --name $envName --appkey $appkey --version $envVersion > /etc/apt/sources.list.d/sherlock.list",
 	      path => "/usr/bin/",
