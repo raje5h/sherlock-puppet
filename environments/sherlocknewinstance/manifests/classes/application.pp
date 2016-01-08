@@ -16,7 +16,7 @@ class application {
     }
     
      exec { "cosmos-sources-list":
-        command => "reposervice --host $repo_svc_host --port $repo_svc_port getenv --name $envName --appkey $appkey --version $envVersion > /etc/apt/sources.list.d/sherlock-cosmos.list",
+        command => "reposervice --host $repo_svc_host --port $repo_svc_port getenv --name $cosmosEnvName --appkey $appkey --version $cosmosEnvVersion > /etc/apt/sources.list.d/sherlock-cosmos.list",
         path => "/usr/bin/",
         require => Exec["infra-cli-command"],
     }
