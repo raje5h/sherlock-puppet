@@ -1,33 +1,15 @@
 class cosmos {
 
-    $envVersion = "2"
-    $envName = "sherlock-cosmos-env"
-    $repo_svc_host = "repo-svc-app-0001.nm.flipkart.com"
-    $repo_svc_port = "8080"
-    $appkey = "12"
-
-    exec { "cosmos-sources-list":
-        command => "reposervice --host $repo_svc_host --port $repo_svc_port getenv --name $envName --appkey $appkey --version $envVersion > /etc/apt/sources.list.d/sherlock-cosmos.list",
-        path => "/usr/bin/",
-        require => Exec["fk-w3-sherlock"],
-    }
-
     exec { "cosmos-service-solr-app":
         command => "sudo echo 'sherlock-app' > /etc/default/cosmos-service",
         path => [ "/bin/", "/usr/bin" ] ,
-        require => Exec["cosmos-sources-list"],
-    }
-
-    exec { "apt-get-update-cosmos":
-        command => "sudo apt-get update ",
-        path => [ "/bin/", "/usr/bin" ] ,
-        require => Exec["cosmos-service-solr-app"],
+        require => Exec["fk-w3-sherlock"],
     }
 
     exec { "fk-ops-sgp-sherlock-install":
         command => "sudo apt-get install --yes --allow-unauthenticated fk-ops-sgp-sherlock --reinstall",
         path => [ "/bin/", "/usr/bin" ] ,
-        require => Exec["apt-get-update-cosmos"],
+        require => Exec["cosmos-service-solr-app"],
     }
 
     exec { "fk-config-service-confd":
