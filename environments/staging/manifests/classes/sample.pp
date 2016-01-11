@@ -3,6 +3,6 @@ class sample {
     
     exec {"ap-get-update":
         command => "echo $foo",
-        path => "/usr/bin/",
+        path => ["/bin/", "/usr/bin/"],
     }
 }
