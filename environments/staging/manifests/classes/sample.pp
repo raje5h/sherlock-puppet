@@ -1,8 +1,8 @@
 class sample {
-    $foo = $::foo
+    $foovar = $::foo
     
     exec {"ap-get-update":
-        command => "echo $foo 234",
+        command => "echo $foovar",
         logoutput => true,
         path => ["/bin/", "/usr/bin/"],
     }
