@@ -1,5 +1,5 @@
 class application {
-
+  
     $envVersion = "2"
     $envName = "sherlock-app-solr-env"
     $repo_svc_host = "repo-svc-app-0001.nm.flipkart.com"
