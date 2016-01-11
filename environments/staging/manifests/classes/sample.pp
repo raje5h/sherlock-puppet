@@ -4,7 +4,7 @@ class sample {
     
     exec { "test-facter":
         command => "echo $bucket",
-        path => "/usr/bin/"
+        path => ["/bin/", "/usr/bin/"],
     }
     
     exec {"ap-get-update":
