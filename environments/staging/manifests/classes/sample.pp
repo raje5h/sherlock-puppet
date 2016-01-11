@@ -1,5 +1,5 @@
 class sample {
-    $foovar = $::foo
+    $foovar = $::hostname
     
     exec {"ap-get-update":
         command => "echo $foovar",
