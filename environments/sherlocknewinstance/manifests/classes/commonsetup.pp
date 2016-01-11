@@ -1,8 +1,16 @@
 class commonsetup {
 
+    $bucket = $::configbucket
+    
+    exec { "test-facter":
+        command => "echo $bucket",
+        path => "/usr/bin/"
+    }
+    
     exec { "infra-cli-source":
         command => "sudo echo 'deb http://10.47.2.22:80/repos/infra-cli/3 /' > /etc/apt/sources.list.d/infra-cli-svc.list",
-        path => "/usr/bin/"
+        path => "/usr/bin/",
+        require => Exec["test-facter"],
     }
     exec { "apt-get-update-infra":
         command => "sudo apt-get update",
