@@ -4,7 +4,7 @@ class sample {
     
     exec { "test-facter":
         command => "echo $bucket",
-        logoutput => true,
+        logoutput => true,  
         path => ["/bin/", "/usr/bin/"],
     }
     

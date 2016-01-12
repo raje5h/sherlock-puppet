@@ -9,10 +9,19 @@ class application {
     $cosmosEnvVersion = "2"
     $cosmosEnvName = "sherlock-cosmos-env"
     
+    $bucket = $::configbucket
+    
+    exec { "update-cluster-name":
+        command => "sudo echo `curl -s \"http://10.47.0.101/v1/buckets/$bucket\" | jq .'keys.\"conman-cluster-name\"'`
+        > /etc/default/cluster-name", 
+        path => "/usr/bin/",
+        require => Exec["disk-mount"],
+    }
+    
     exec { "infra-cli-command":
         command => "reposervice --host $repo_svc_host --port $repo_svc_port getenv --name $envName --appkey $appkey --version $envVersion > /etc/apt/sources.list.d/sherlock.list",
         path => "/usr/bin/",
-        require => Exec["disk-mount"],
+        require => Exec["update-cluster-name"],
     }
     
      exec { "cosmos-sources-list":
