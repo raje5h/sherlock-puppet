@@ -6,7 +6,7 @@ class application {
     $repo_svc_port = "8080"
     $appkey = "12"
     
-    $cosmosEnvVersion = "2"
+    $cosmosEnvVersion = "3"
     $cosmosEnvName = "sherlock-cosmos-env"
     
     $bucket = $::configbucket
