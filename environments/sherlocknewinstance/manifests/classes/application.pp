@@ -10,9 +10,10 @@ class application {
     $cosmosEnvName = "sherlock-cosmos-env"
     
     $bucket = $::configbucket
+    $cluster_fact = $::uniquefact
     
     exec { "update-cluster-name":
-        command => "echo `curl -s \"http://10.47.0.101/v1/buckets/$bucket\" | jq .'keys.\"conman-cluster-name\"' | tr -d '\"'` | sudo tee --append /etc/default/cluster-name", 
+        command => "echo `curl -s \"http://10.47.0.101/v1/buckets/$bucket\" | jq .'keys.\"conman-cluster-name\" + \".\" + $cluster_fact' | tr -d '\"'` | sudo tee --append /etc/default/cluster-name", 
         path => [ "/bin/", "/usr/bin" ],
         require => Exec["disk-mount"],
     }
