@@ -52,12 +52,6 @@ class commonsetup {
         require => Exec["adding-host-5"],
     }
     
-    exec { "adding-host-6":
-        command => "echo '10.84.35.1    pf-config-publish.nm.flipkart.com' | sudo tee --append /etc/hosts",
-        path => [ "/bin/", "/usr/bin" ] ,
-        require => Exec["adding-host-5"],
-    }
-    
     exec { "tcp-setting-1":
         command => "echo 'net.core.somaxconn=1024' | sudo tee --append /etc/sysctl.d/sherlock.conf",
         path => [ "/bin/", "/usr/bin" ] ,
@@ -80,6 +74,7 @@ class commonsetup {
         path => [ "/bin/", "/usr/bin" ] ,
         require => Exec["tcp-setting-3"],
     }    
+    
     exec { "disk-mount":
       command => "/sbin/mkfs.ext4 /dev/vdb && echo \"/dev/vdb /var/lib/fk-w3-sherlock ext4 rw,noatime,nodiratime 0 0\" >>/etc/fstab && (cd /var/lib/;mkdir fk-w3-sherlock) && mount /dev/vdb /var/lib/fk-w3-sherlock",
       path => [ "/bin/", "/usr/bin" ],
