@@ -3,7 +3,6 @@ class cosmos {
     exec { "cosmos-service-solr-app":
         command => "sudo echo 'sherlock-app' > /etc/default/cosmos-service",
         path => [ "/bin/", "/usr/bin" ] ,
-        require => Exec["fk-w3-sherlock"],
     }
 
     exec { "fk-ops-sgp-sherlock-install":
