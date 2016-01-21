@@ -36,13 +36,13 @@ class commonsetup {
     }
     
     exec { "adding-host-4":
-        command => "echo '10.32.218.109   sherlock-app-slave-db.nm.flipkart.com' | sudo tee --append /etc/hosts",
+        command => "echo '10.32.241.213   sherlock-app-slave-db.nm.flipkart.com' | sudo tee --append /etc/hosts",
         path => [ "/bin/", "/usr/bin" ] ,
         require => Exec["adding-host-3"],
     }
     
     exec { "adding-host-5":
-        command => "echo '10.32.218.109    sherlock-slave-db.nm.flipkart.com' | sudo tee --append /etc/hosts",
+        command => "echo '10.32.241.213    sherlock-slave-db.nm.flipkart.com' | sudo tee --append /etc/hosts",
         path => [ "/bin/", "/usr/bin" ] ,
         require => Exec["adding-host-4"],
     }
