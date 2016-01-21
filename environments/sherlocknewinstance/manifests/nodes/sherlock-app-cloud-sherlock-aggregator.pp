@@ -1,7 +1,6 @@
 node /^sherlock-app-cloud-sherlock-aggregator/ {
         include commonsetup
         include applicationsources
-        include haproxy
         include applicationsetup
         include cosmos
         include alertz
@@ -13,6 +12,7 @@ node /^sherlock-app-cloud/ {
         include commonsetup
         include applicationsources
         include applicationsetup
+        include haproxy
         include cosmos
         include alertz
         
