@@ -10,7 +10,7 @@ echo "====================================================="
 echo "Doing Health checks after restart"
 echo "====================================================="
 
-sleep 10
+sleep 20
 
 if [ "$STATUS" = "200" ]
 then
