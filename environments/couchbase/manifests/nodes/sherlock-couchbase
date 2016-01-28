@@ -1,0 +1,6 @@
+node /^sherlock-couchbase/ {
+        include commonsetup
+        include application
+        include cosmos
+        include alertz
+}
