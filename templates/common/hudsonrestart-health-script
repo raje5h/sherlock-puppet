@@ -10,6 +10,8 @@ echo "====================================================="
 echo "Doing Health checks after restart"
 echo "====================================================="
 
+sleep 20
+
 if [ "$STATUS" = "200" ]
 then
     echo "========curl command successful========"

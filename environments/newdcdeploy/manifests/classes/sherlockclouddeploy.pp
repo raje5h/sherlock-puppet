@@ -3,8 +3,8 @@ class sherlockclouddeploy {
     $packageVersion = $::sherlockversion
     $currentRotationStatus = $::rotationstatus
 
-    $envVersion = "3"
-    $envName = "sherlock-app-solr-env"
+    $envVersion = "2"
+    $envName = "sherlock-app-solr-search-env"
     $repo_svc_host = "repo-svc-app-0001.nm.flipkart.com"
     $repo_svc_port = "8080"
     $appkey = "12"
@@ -21,7 +21,7 @@ class sherlockclouddeploy {
     }
     
     exec { "fk-w3-sherlock":
-        command => "sudo apt-get -y --allow-unauthenticated --force-yes install fk-w3-sherlock",
+        command => "sudo apt-get -y --allow-unauthenticated --force-yes install fk-w3-sherlock --reinstall",
         path => "/usr/bin",
         logoutput => false,
         tries => 2,

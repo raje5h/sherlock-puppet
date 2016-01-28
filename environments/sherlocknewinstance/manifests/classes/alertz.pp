@@ -9,7 +9,6 @@ class alertz {
     exec { "alertz-sources-list":
         command => "reposervice --host $repo_svc_host --port $repo_svc_port getenv --name $envName --appkey $appkey --version $envVersion > /etc/apt/sources.list.d/sherlock-alertz.list",
         path => "/usr/bin/",
-        require => Exec["fk-ops-sgp-sherlock-reinstall"],
     }
     
     exec { "apt-get update":
