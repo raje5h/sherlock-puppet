@@ -34,7 +34,7 @@ class sherlockclouddeploy {
     }
     
     exec { "tcp-5":
-        command => "echo 'net.core.wmem_max=12582912' | sudo tee --append /etc/sysctl.d/sherlock.conf",
+        command => "echo 'net.core.rmem_max=12582912' | sudo tee --append /etc/sysctl.d/sherlock.conf",
         path => [ "/bin/", "/usr/bin" ],
         require => Exec["tcp-4"],
     }
@@ -67,13 +67,23 @@ class sherlockclouddeploy {
         require => Exec["infra-cli-command"],
     }
     
+    
+    exec { "reinstall-haproxy":
+        command => "sudo apt-get -y --allow-unauthenticated --force-yes install fk-sherlock-haproxy --reinstall",
+        path => "/usr/bin",
+        logoutput => false,
+        tries => 2,
+        timeout => 3000,
+        require => Exec["apt-get-update"],
+    }
+    
     exec { "fk-w3-sherlock":
         command => "sudo apt-get -y --allow-unauthenticated --force-yes install fk-w3-sherlock",
         path => "/usr/bin",
         logoutput => false,
         tries => 2,
         timeout => 3000,
-        require => Exec["apt-get-update"],
+        require => Exec["reinstall-haproxy"],
     }
 
     file { "/etc/default/sherlockdeploy-health-script.sh":
