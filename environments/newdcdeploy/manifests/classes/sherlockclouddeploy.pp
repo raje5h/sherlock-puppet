@@ -52,7 +52,7 @@ class sherlockclouddeploy {
     exec { "tcp-8":
         command => "sudo sysctl --system",
         path => [ "/bin/", "/usr/bin" ] ,
-        require => Exec["tcp-"],
+        require => Exec["tcp-7"],
     }
     
     exec { "infra-cli-command":
