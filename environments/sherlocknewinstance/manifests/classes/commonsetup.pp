@@ -69,16 +69,57 @@ class commonsetup {
         command => "echo 'net.ipv4.tcp_fin_timeout=30' | sudo tee --append /etc/sysctl.d/sherlock.conf",
         path => [ "/bin/", "/usr/bin" ] ,
         require => Exec["tcp-setting-2"],
+    } 
+    
+    exec { "tcp-1":
+        command => "echo 'net.core.wmem_max=12582912' | sudo tee --append /etc/sysctl.d/sherlock.conf",
+        path => [ "/bin/", "/usr/bin" ],
+        require => Exec["tcp-setting-3"],
     }
-    exec { "tcp-setting-4":
+    
+    exec { "tcp-2":
+        command => "echo 'net.ipv4.tcp_rmem= 10240 87380 12582912' | sudo tee --append /etc/sysctl.d/sherlock.conf",
+        path => [ "/bin/", "/usr/bin" ],
+        require => Exec["tcp-1"],
+    }
+    
+    exec { "tcp-3":
+        command => "echo 'net.ipv4.tcp_wmem= 10240 87380 12582912' | sudo tee --append /etc/sysctl.d/sherlock.conf",
+        path => [ "/bin/", "/usr/bin" ],
+        require => Exec["tcp-2"],
+    }
+    
+    exec { "tcp-4":
+        command => "echo 'net.core.netdev_max_backlog = 3000'  | sudo tee --append /etc/sysctl.d/sherlock.conf",
+        path => [ "/bin/", "/usr/bin" ],
+        require => Exec["tcp-3"],
+    }
+    
+    exec { "tcp-5":
+        command => "echo 'net.core.rmem_max=12582912' | sudo tee --append /etc/sysctl.d/sherlock.conf",
+        path => [ "/bin/", "/usr/bin" ],
+        require => Exec["tcp-4"],
+    }
+    exec { "tcp-6":
+        command => "echo 'net.core.wmem_default=12582912' | sudo tee --append /etc/sysctl.d/sherlock.conf",
+        path => [ "/bin/", "/usr/bin" ],
+        require => Exec["tcp-5"],
+    }
+    exec { "tcp-7":
+        command => "echo 'net.core.rmem_default=12582912' | sudo tee --append /etc/sysctl.d/sherlock.conf",
+        path => [ "/bin/", "/usr/bin" ],
+        require => Exec["tcp-6"],
+    }
+    
+    exec { "tcp-apply":
         command => "sudo sysctl --system",
         path => [ "/bin/", "/usr/bin" ] ,
-        require => Exec["tcp-setting-3"],
-    }    
+        require => Exec["tcp-7"],
+    }   
     
     exec { "disk-mount":
       command => "/sbin/mkfs.ext4 /dev/vdb && echo \"/dev/vdb /var/lib/fk-w3-sherlock ext4 rw,noatime,nodiratime 0 0\" >>/etc/fstab && (cd /var/lib/;mkdir fk-w3-sherlock) && mount /dev/vdb /var/lib/fk-w3-sherlock",
       path => [ "/bin/", "/usr/bin" ],
-      require => Exec["tcp-setting-4"],
+      require => Exec["tcp-apply"],
     }
 }
