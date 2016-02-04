@@ -8,13 +8,13 @@ class sherlockrestart {
             timeout => 1800,
             path => "/usr/bin/",
         }
-
+    if $currentRotationStatus != "In rotation" {
         exec { "admin-bir":
             command => "sudo fk-w3-sherlock-admin bir",
             logoutput => true,
             path => "/usr/bin/",
             timeout => 3000,
             require => Exec["restart"],
-        }
-    
+        }    
+    }
 }
