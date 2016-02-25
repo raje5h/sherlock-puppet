@@ -29,3 +29,13 @@ node /^sherlock-test-env-preprod-sherlock/ {
         
         Class['commonsetup'] -> Class['applicationsources'] ->  Class['haproxy'] -> Class['applicationsetup'] -> Class['cosmos'] -> Class['alertz']
 }
+
+node /^sherlock-test-env-preprod-hudson/ {
+        include hudsoncommonsetup
+        include hudsonapplicationsources
+        include hudsonapplicationsetup
+        include hudsoncosmos
+        include alertz
+        
+        Class['hudsoncommonsetup'] -> Class['hudsonapplicationsources'] -> Class['hudsonapplicationsetup'] -> Class['hudsoncosmos'] -> Class['alertz']
+}
