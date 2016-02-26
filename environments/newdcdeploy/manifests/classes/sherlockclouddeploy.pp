@@ -39,19 +39,19 @@ class sherlockclouddeploy {
         require => Exec["reinstall-haproxy"],
     }
 
-    file { "/etc/default/sherlockdeploy-health-script.sh":
+    file { "/etc/default/sherlockclouddeploy-health-script.sh":
         owner => root,
         group => root,
-        content => template("common/sherlockdeploy-health-script"),
+        content => template("common/sherlockclouddeploy-health-script"),
         mode => 777,
         require => Exec["fk-w3-sherlock"],
     }
 
     exec { "health-check-script":
-         command => "sh /etc/default/sherlockdeploy-health-script.sh",
+         command => "sh /etc/default/sherlockclouddeploy-health-script.sh",
          path => [ "/bin/", "/usr/bin/" ],
          tries => 2,
          logoutput => true,
-         require => File["/etc/default/sherlockdeploy-health-script.sh"]
+         require => File["/etc/default/sherlockclouddeploy-health-script.sh"]
     }
 }
