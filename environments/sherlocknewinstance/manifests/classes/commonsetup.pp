@@ -17,10 +17,16 @@ class commonsetup {
         require => Exec["apt-get-update-infra"],
     }
     
+    exec { "install-screen":
+        command => "sudo apt-get install --yes --allow-unauthenticated screen",
+        path => "/usr/bin/",
+        require => Exec["infra-cli-install"],
+    }
+    
     exec { "adding-host-1":
         command => "echo '10.65.30.211  pf-config-publish-alt.nm.flipkart.com' | sudo tee --append /etc/hosts",
         path => [ "/bin/", "/usr/bin" ] ,
-        require => Exec["infra-cli-install"],
+        require => Exec["install-screen"],
     }
     
     exec { "adding-host-2":

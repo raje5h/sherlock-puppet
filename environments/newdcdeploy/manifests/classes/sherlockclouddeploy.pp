@@ -10,7 +10,7 @@ class sherlockclouddeploy {
     $appkey = "12"
     
     exec { "infra-cli-command":
-        command => "reposervice --host $repo_svc_host --port $repo_svc_port getenv --name $envName --appkey $appkey --version $envVersion > /etc/apt/sources.list.d/sherlock.list",
+        command => "reposervice --host $repo_svc_host --port $repo_svc_port getenv --name $envName --appkey $appkey --version $envVersion | sudo tee /etc/apt/sources.list.d/sherlock.list",
         path => "/usr/bin/",
     }
     
