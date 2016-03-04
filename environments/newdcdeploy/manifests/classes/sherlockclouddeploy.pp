@@ -18,17 +18,7 @@ class sherlockclouddeploy {
         command => "sudo apt-get update",
         path => "/usr/bin/",
         require => Exec["infra-cli-command"],
-    }
-    
-    
-    exec { "reinstall-haproxy":
-        command => "sudo apt-get -y --allow-unauthenticated --force-yes install fk-sherlock-haproxy --reinstall",
-        path => "/usr/bin",
-        logoutput => false,
-        tries => 2,
-        timeout => 3000,
-        require => Exec["apt-get-update"],
-    }
+    } 
     
     exec { "fk-w3-sherlock":
         command => "sudo apt-get -y --allow-unauthenticated --force-yes install fk-w3-sherlock",
@@ -36,7 +26,7 @@ class sherlockclouddeploy {
         logoutput => false,
         tries => 2,
         timeout => 3000,
-        require => Exec["reinstall-haproxy"],
+        require => Exec["apt-get-update"],
     }
 
     file { "/etc/default/sherlockclouddeploy-health-script.sh":
