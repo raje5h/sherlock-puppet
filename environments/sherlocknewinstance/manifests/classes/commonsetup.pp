@@ -23,10 +23,34 @@ class commonsetup {
         require => Exec["infra-cli-install"],
     }
     
+    exec { "update-jenkins-user-package":
+        command => "echo 'deb http://10.47.2.22:80/repos/fk-w3-user/8 /' | sudo tee --append /etc/apt/sources.list.d/jenkins.list",
+        path => [ "/bin/", "/usr/bin" ] ,
+        require => Exec["install-screen"]
+    }
+    
+    exec { "apt-update-jenkins":
+        command => "sudo apt-get update",
+        path => "/usr/bin/",
+        require => Exec["update-jenkins-user-package"]
+    }
+    
+    exec { "install-jenkins-users":
+        command => "sudo apt-get install --yes --allow-unauthenticated fk-w3-user",
+        path => "/usr/bin/",
+        require => Exec["apt-update-jenkins"]
+    }
+    
+    exec { "add-sudo-jenkins":
+        command => "echo 'fk-w3-jenkins ALL=(ALL) NOPASSWD: ALL' | sudo tee --append /etc/sudoers.d/jenkins",
+        path => "/usr/bin/",
+        require => Exec["install-jenkins-users"]
+    }
+    
     exec { "adding-host-1":
         command => "echo '10.65.30.211  pf-config-publish-alt.nm.flipkart.com' | sudo tee --append /etc/hosts",
         path => [ "/bin/", "/usr/bin" ] ,
-        require => Exec["install-screen"],
+        require => Exec["add-sudo-jenkins"],
     }
     
     exec { "adding-host-2":
