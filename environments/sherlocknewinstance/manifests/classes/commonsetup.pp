@@ -43,7 +43,7 @@ class commonsetup {
     
     exec { "add-sudo-jenkins":
         command => "echo 'fk-w3-jenkins ALL=(ALL) NOPASSWD: ALL' | sudo tee --append /etc/sudoers.d/jenkins",
-        path => "/usr/bin/",
+        path => [ "/bin/", "/usr/bin" ],
         require => Exec["install-jenkins-users"]
     }
     
