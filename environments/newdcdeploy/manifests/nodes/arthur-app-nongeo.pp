@@ -1,3 +1,3 @@
-node /^sherlock-storm-nongeo-grp/ {
+node default {
         include arthurdeploynongeo
 }
