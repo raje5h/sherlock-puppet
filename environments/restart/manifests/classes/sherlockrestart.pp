@@ -8,7 +8,7 @@ class sherlockrestart {
             timeout => 1800,
             path => "/usr/bin/",
     }
-    
+      
     if $currentRotationStatus != "In rotation" {
         exec { "admin-bir":
             command => "sudo fk-w3-sherlock-admin bir",
