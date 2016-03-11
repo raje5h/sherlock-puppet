@@ -6,7 +6,7 @@ class ingesterdeploy {
     $repo_svc_port = "8080"
     $appkey = "1"
     
-    exec { "arthur-source":
+    exec { "ingester-source":
         command => "sudo reposervice --host $repo_svc_host --port $repo_svc_port getenv --name $envName --appkey $appkey --version $envVersion  | sudo tee /etc/apt/sources.list.d/sherlock-ingester.list ",
         path => "/usr/bin/",
     }
@@ -15,7 +15,7 @@ class ingesterdeploy {
         command => "sudo apt-get update",
         path => "/usr/bin/",
         logoutput => false,
-        require => Exec["arthur-source"]
+        require => Exec["ingester-source"]
     }
     
     exec { "sherlock-ingester":
