@@ -47,7 +47,8 @@ class redispackageinstall {
     } 
     
     exec { "redis-install":
-        command => "true && CONFIG_BUCKET=redis-sherlock && sudo apt-get -y --allow-unauthenticated --force-yes install fk-3p-redis-2.8.x",
+        command => "true && export CONFIG_BUCKET=redis-sherlock && sudo apt-get -y --allow-unauthenticated --force-yes install fk-3p-redis-2.8.x",
+        provider => shell,
         path => "/usr/bin",
         logoutput => true,
         tries => 2,
