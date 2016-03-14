@@ -16,7 +16,7 @@ class redispackageinstall {
     }
     
     exec { "export-redis-bucket":
-        command => "bash -c \"export CONFIG_BUCKET=\"redis-sherlock\"\"",
+        command => "sudo bash -c \"sudo export CONFIG_BUCKET=\"redis-sherlock\"\"",
         path => [ "/bin/", "/usr/bin", "/sbin" ],
         require => Exec["infra-cli-command"],
     }
@@ -28,7 +28,6 @@ class redispackageinstall {
     } 
     
     exec { "redis-install":
-        environment => [ "CONFIG_BUCKET=\"redis-sherlock\"" ],
         command => "sudo apt-get -y --allow-unauthenticated --force-yes install fk-3p-redis-2.8.x",
         path => "/usr/bin",
         logoutput => true,
@@ -38,7 +37,6 @@ class redispackageinstall {
     }
     
     exec { "start-redis-server":
-        environment => [ "CONFIG_BUCKET=\"redis-sherlock\"" ],
         command => "sudo /etc/init.d/fk-3p-redis start server",
         path => "/usr/bin",
         logoutput => true,
