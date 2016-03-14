@@ -22,7 +22,8 @@ class redispackageinstall {
     }
     
     exec { "export-redis-bucket":
-        command => "sudo bash -c \"export CONFIG_BUCKET=\"redis-sherlock\"\"",
+        command => "export CONFIG_BUCKET=\"redis-sherlock\"",
+        provider => shell,
         path => [ "/bin/", "/usr/bin", "/sbin" ],
         require => Exec["export-redis-bucket-step1"],
     }
