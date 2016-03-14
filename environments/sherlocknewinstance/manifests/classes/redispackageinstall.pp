@@ -16,7 +16,7 @@ class redispackageinstall {
     }
     
     exec { "export-redis-bucket-step1":
-        command => "echo \"Defaults env_keep += \"CONFIG_BUCKET\"\" | sudo tee --append /etc/sudoers",
+        command => 'echo \'Defaults env_keep += "CONFIG_BUCKET"\' | sudo tee --append /etc/sudoers',
         path => [ "/bin/", "/usr/bin", "/sbin" ],
         require => Exec["infra-cli-command"],
     }
