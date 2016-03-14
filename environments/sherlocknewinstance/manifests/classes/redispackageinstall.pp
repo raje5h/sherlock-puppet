@@ -16,15 +16,21 @@ class redispackageinstall {
     }
     
     exec { "export-redis-bucket":
-        command => "CONFIG_BUCKET=\"redis-sherlock\"",
+        command => "bash -c \"export CONFIG_BUCKET=\"redis-sherlock\"\"",
         path => [ "/bin/", "/usr/bin", "/sbin" ],
         require => Exec["infra-cli-command"],
     }
     
-    exec { "apt-get-update-redis":
+    exec { "export-redis-bucket-echo":
+        command => "echo '\$CONFIG_BUCKET'",
+        path => [ "/bin/", "/usr/bin", "/sbin" ],
+        require => Exec["export-redis-bucket"],
+    }
+    
+    exec { "apt-get-update":
         command => "sudo apt-get update",
         path => "/usr/bin/",
-        require => Exec["infra-cli-command"],
+        require => Exec["export-redis-bucket-echo"],
     } 
     
     exec { "redis-install":
@@ -33,7 +39,7 @@ class redispackageinstall {
         logoutput => true,
         tries => 2,
         timeout => 3000,
-        require => Exec["apt-get-update-redis"],
+        require => Exec["apt-get-update"],
     }
     
     exec { "start-redis-server":
