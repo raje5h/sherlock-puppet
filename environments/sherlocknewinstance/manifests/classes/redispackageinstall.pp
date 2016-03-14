@@ -15,10 +15,16 @@ class redispackageinstall {
         path => "/usr/bin/",
     }
     
+    exec { "export-redis-bucket-step1":
+        command => "echo \"Defaults env_keep += \"CONFIG_BUCKET\"\" | sudo tee --append /etc/sudoers",
+        path => [ "/bin/", "/usr/bin", "/sbin" ],
+        require => Exec["infra-cli-command"],
+    }
+    
     exec { "export-redis-bucket":
         command => "sudo bash -c \"export CONFIG_BUCKET=\"redis-sherlock\"\"",
         path => [ "/bin/", "/usr/bin", "/sbin" ],
-        require => Exec["infra-cli-command"],
+        require => Exec["export-redis-bucket-step1"],
     }
     
     exec { "apt-get-update-redis":
