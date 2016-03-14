@@ -20,7 +20,7 @@ class redispackageinstall {
     exec { "apt-get-update-redis":
         command => "sudo apt-get update",
         path => "/usr/bin/",
-        require => Exec["export-redis-bucket-2"],
+        require => Exec["infra-cli-command"],
     } 
     
     exec { "redis-install":
@@ -33,7 +33,7 @@ class redispackageinstall {
     }
     
     exec {"redis-update-config":
-        command => "sudo /etc/init.d/fk-3p-redis update-confd-prefix server `curl -s \"http://10.47.0.101/v1/buckets/sherlock-util-instance-setup\" | grep -o '\"redis-bucket-name.redis-santa-rols\":[^,]*' | cut -d '\"' -f4`",
+        command => "sudo /etc/init.d/fk-3p-redis update-confd-prefix server `curl -s \"http://10.47.0.101/v1/buckets/$bucket\" | grep -o '\"$redis_bucket_name\":[^,]*' | cut -d '\"' -f4`",
         provider => shell,
         path => "/usr/bin",
         logoutput => true,
