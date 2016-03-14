@@ -9,35 +9,12 @@ class redispackageinstall {
     
     $bucket = $::configbucket
     $cluster_fact = $::uniquefact
+    $redis_bucket_name = "redis-bucket-name.${cluster_fact}"
+    
     
     exec { "infra-cli-command":
         command => "reposervice --host $repo_svc_host --port $repo_svc_port getenv --name $envName --appkey $appkey --version $envVersion > /etc/apt/sources.list.d/redis.list",
         path => "/usr/bin/",
-    }
-    
-    /*exec { "export-redis-bucket-step1":
-        command => 'echo \'Defaults env_keep += "CONFIG_BUCKET"\' | sudo tee --append /etc/sudoers',
-        path => [ "/bin/", "/usr/bin", "/sbin" ],
-        require => Exec["infra-cli-command"],
-    }*/
-    
-    exec { "export-redis-bucket-step1":
-        command => 'echo \'Defaults env_keep += "CONFIG_BUCKET"\' | sudo tee --append /etc/sudoers',
-        path => [ "/bin/", "/usr/bin", "/sbin" ],
-        require => Exec["infra-cli-command"],
-    }
-    
-    exec { "export-redis-bucket":
-        command => 'echo \'CONFIG_BUCKET=redis-sherlock\' | sudo tee --append /etc/default/redis',
-        path => [ "/bin/", "/usr/bin", "/sbin" ],
-        require => Exec["export-redis-bucket-step1"],
-    }
-    
-    exec { "export-redis-bucket-2":
-        command => 'true && . /etc/default/redis',
-        provider => shell,
-        path => [ "/bin/", "/usr/bin", "/sbin" ],
-        require => Exec["export-redis-bucket"],
     }
     
     exec { "apt-get-update-redis":
@@ -47,8 +24,7 @@ class redispackageinstall {
     } 
     
     exec { "redis-install":
-        command => "export CONFIG_BUCKET=redis-sherlock && sudo apt-get -y --allow-unauthenticated --force-yes install fk-3p-redis-2.8.x",
-        provider => shell,
+        command => "sudo apt-get -y --allow-unauthenticated --force-yes install fk-3p-redis-2.8.x",
         path => "/usr/bin",
         logoutput => true,
         tries => 2,
@@ -56,13 +32,22 @@ class redispackageinstall {
         require => Exec["apt-get-update-redis"],
     }
     
-    exec { "start-redis-server":
-        command => "export CONFIG_BUCKET=redis-sherlock && sudo /etc/init.d/fk-3p-redis start server",
+    exec {"redis-update-config":
+        command => "sudo /etc/init.d/fk-3p-redis update-confd-prefix server 'echo `curl -s \"http://10.47.0.101/v1/buckets/$bucket\" | grep -o '\"$redis_bucket_name\":[^,]*' | cut -d '\"' -f4`",
         provider => shell,
         path => "/usr/bin",
         logoutput => true,
         tries => 2,
         timeout => 3000,
-        require => Exec["redis-install"],
+        require => Exec["redis-install"], 
+    }
+    
+    exec { "start-redis-server":
+        command => "sudo /etc/init.d/fk-3p-redis start server",
+        path => "/usr/bin",
+        logoutput => true,
+        tries => 2,
+        timeout => 3000,
+        require => Exec["redis-update-config"],
     }  
 }
