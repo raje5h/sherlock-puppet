@@ -2,10 +2,29 @@ class cosmosredis {
   
     $bucket = $::configbucket
     $cluster_fact = $::uniquefact
+    
+    $cosmosEnvVersion = "3"
+    $cosmosEnvName = "sherlock-cosmos-env"
 
+    $repo_svc_host = "repo-svc-app-0001.nm.flipkart.com"
+    $repo_svc_port = "8080"
+    $appkey = "12"
+    
+    exec { "cosmos-sources-list":
+        command => "reposervice --host $repo_svc_host --port $repo_svc_port getenv --name $cosmosEnvName --appkey $appkey --version $cosmosEnvVersion > /etc/apt/sources.list.d/sherlock-cosmos.list",
+        path => "/usr/bin/",
+        require => Exec["infra-cli-command"],
+    }
+    
+    exec { "apt-get-update":
+        command => "sudo apt-get update",
+        path => "/usr/bin/",
+        require => Exec["cosmos-sources-list"],
+    }   
     exec { "cosmos-service-solr-app":
         command => "sudo echo '$cluster_fact' > /etc/default/cosmos-service",
         path => [ "/bin/", "/usr/bin" ] ,
+        require => Exec["apt-get-update"],
     }
 
     exec { "update-role":

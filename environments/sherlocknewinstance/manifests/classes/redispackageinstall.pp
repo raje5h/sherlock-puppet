@@ -16,7 +16,7 @@ class redispackageinstall {
     }
     
     exec { "export-redis-bucket":
-        command => "bash -c \"export CONFIG_BUCKET=\"redis-sherlock\"\"",
+        command => "CONFIG_BUCKET=\"redis-sherlock\"",
         path => [ "/bin/", "/usr/bin", "/sbin" ],
         require => Exec["infra-cli-command"],
     }
@@ -24,7 +24,7 @@ class redispackageinstall {
     exec { "apt-get-update":
         command => "sudo apt-get update",
         path => "/usr/bin/",
-        require => Exec["export-redis-bucket"],
+        require => Exec["export-redis-bucket-echo"],
     } 
     
     exec { "redis-install":
