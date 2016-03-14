@@ -42,8 +42,8 @@ class redispackageinstall {
     }
     
     exec { "start-redis-server":
-        command => "sudo /etc/init.d/fk-3p-redis start server",
-        path => "/usr/bin",
+        command => "sleep 60 && sudo /etc/init.d/fk-3p-redis start server",
+        path => [ "/bin/", "/usr/bin" ],
         logoutput => true,
         tries => 2,
         timeout => 3000,
