@@ -22,7 +22,8 @@ class redispackageinstall {
     }
     
     exec { "export-redis-bucket-echo":
-        command => "echo '\$CONFIG_BUCKET'",
+        command => "echo 'udit \$CONFIG_BUCKET'",
+        logoutput => true,
         path => [ "/bin/", "/usr/bin", "/sbin" ],
         require => Exec["export-redis-bucket"],
     }
