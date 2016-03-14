@@ -34,7 +34,7 @@ class redispackageinstall {
     }
     
     exec { "export-redis-bucket-2":
-        command => 'true && source /etc/default/redis',
+        command => 'true && ./etc/default/redis',
         provider => shell,
         path => [ "/bin/", "/usr/bin", "/sbin" ],
         require => Exec["export-redis-bucket"],
