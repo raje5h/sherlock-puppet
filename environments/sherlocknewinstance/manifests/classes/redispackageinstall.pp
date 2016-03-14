@@ -20,7 +20,7 @@ class redispackageinstall {
     exec { "apt-get-update-redis":
         command => "sudo apt-get update",
         path => "/usr/bin/",
-        require => Exec["export-redis-bucket-2"],
+        require => Exec["infra-cli-command"],
     } 
     
     exec { "redis-install":
