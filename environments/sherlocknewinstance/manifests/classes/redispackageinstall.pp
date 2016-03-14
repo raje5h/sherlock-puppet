@@ -27,7 +27,7 @@ class redispackageinstall {
         require => Exec["export-redis-bucket"],
     }
     
-    exec { "apt-get-update":
+    exec { "apt-get-update-redis":
         command => "sudo apt-get update",
         path => "/usr/bin/",
         require => Exec["export-redis-bucket-echo"],
@@ -39,7 +39,7 @@ class redispackageinstall {
         logoutput => true,
         tries => 2,
         timeout => 3000,
-        require => Exec["apt-get-update"],
+        require => Exec["apt-get-update-redis"],
     }
     
     exec { "start-redis-server":
