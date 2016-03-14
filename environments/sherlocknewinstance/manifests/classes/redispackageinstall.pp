@@ -15,6 +15,12 @@ class redispackageinstall {
         path => "/usr/bin/",
     }
     
+    /*exec { "export-redis-bucket-step1":
+        command => 'echo \'Defaults env_keep += "CONFIG_BUCKET"\' | sudo tee --append /etc/sudoers',
+        path => [ "/bin/", "/usr/bin", "/sbin" ],
+        require => Exec["infra-cli-command"],
+    }*/
+    
     exec { "export-redis-bucket-step1":
         command => 'echo \'Defaults env_keep += "CONFIG_BUCKET"\' | sudo tee --append /etc/sudoers',
         path => [ "/bin/", "/usr/bin", "/sbin" ],
@@ -22,16 +28,22 @@ class redispackageinstall {
     }
     
     exec { "export-redis-bucket":
-        command => "export CONFIG_BUCKET=\"redis-sherlock\"",
-        provider => shell,
+        command => 'echo \'CONFIG_BUCKET=redis-sherlock\' | sudo tee --append /etc/default/redis',
         path => [ "/bin/", "/usr/bin", "/sbin" ],
         require => Exec["export-redis-bucket-step1"],
+    }
+    
+    exec { "export-redis-bucket-2":
+        command => 'source /etc/default/redis',
+        provider => shell,
+        path => [ "/bin/", "/usr/bin", "/sbin" ],
+        require => Exec["export-redis-bucket"],
     }
     
     exec { "apt-get-update-redis":
         command => "sudo apt-get update",
         path => "/usr/bin/",
-        require => Exec["export-redis-bucket"],
+        require => Exec["export-redis-bucket-2"],
     } 
     
     exec { "redis-install":
