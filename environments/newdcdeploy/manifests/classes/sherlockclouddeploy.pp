@@ -9,6 +9,9 @@ class sherlockclouddeploy {
     $repo_svc_port = "8080"
     $appkey = "12"
     
+    $repo_version = $::repoVersion
+    $downgrade_deb_version = $::downgradeDebVersion
+    
     exec { "infra-cli-command":
         command => "reposervice --host $repo_svc_host --port $repo_svc_port getenv --name $envName --appkey $appkey --version $envVersion | sudo tee /etc/apt/sources.list.d/sherlock.list",
         path => "/usr/bin/",
@@ -20,14 +23,26 @@ class sherlockclouddeploy {
         require => Exec["infra-cli-command"],
     } 
     
-    exec { "fk-w3-sherlock":
-        command => "sudo apt-get -y --allow-unauthenticated --force-yes install fk-w3-sherlock",
-        path => "/usr/bin",
-        logoutput => false,
-        tries => 2,
-        timeout => 3000,
-        require => Exec["apt-get-update"],
+    if($downgrade_deb_version == "FALSE") {
+        exec { "fk-w3-sherlock":
+          command => "sudo apt-get -y --allow-unauthenticated --force-yes install fk-w3-sherlock",
+          path => "/usr/bin",
+          logoutput => false,
+          tries => 2,
+          timeout => 3000,
+          require => Exec["apt-get-update"],
+        }  
+    } else {
+      exec { "fk-w3-sherlock":
+          command => "sudo apt-get -y --allow-unauthenticated --force-yes install fk-w3-sherlock=$downgrade_deb_version",
+          path => "/usr/bin",
+          logoutput => false,
+          tries => 2,
+          timeout => 3000,
+          require => Exec["apt-get-update"],
+        }
     }
+    
 
     file { "/etc/default/sherlockclouddeploy-health-script.sh":
         owner => root,

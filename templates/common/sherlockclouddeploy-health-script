@@ -4,11 +4,11 @@ HOST_NAME=`hostname`
 STATUS=`curl -I "http://$HOST_NAME:25280/sherlock/" | grep "HTTP" | awk '{print $2}'`
 ELB_HEALTHCHECK_API_STATUS=`curl -s -I "http://$HOST_NAME:25280/elb-healthcheck" | grep "HTTP" | awk '{print $2}'`
 
-#VERSION_TO_DEPLOY="<%= @packageVersion %>"
+REPO_VERSION="<%= @$repo_version%>"
+DEB_VERSION_TO_BE_INSTALLED=`apt-cache policy fk-w3-sherlock | grep  -B1 "/$REPO_VERSION" | grep -v "/$REPO_VERSION" | awk '{print $1}'`
+DEB_VERSION_INSTALLED=`apt-cache policy fk-w3-sherlock | grep Installed | awk '{print $2}'`
 
 CURRENT_ROTATION_STATUS="<%= @currentRotationStatus %>"
-
-#NEW_VERSION=`dpkg -l | grep fk-w3-sherlock | awk '{print $3}'`
 
 NEW_ROTATION_STATUS="`fk-w3-sherlock-admin status`"
 SOLR_API="http://$HOST_NAME:25280/solr/admin/cores?action=STATUS&wt=json"
@@ -18,6 +18,16 @@ CORE_SUCCESS_CRITERIA="\"initFailures\":{}"
 echo "====================================================="
 echo "Doing Health checks after package installation"
 echo "====================================================="
+
+if [ "$DEB_VERSION_TO_BE_INSTALLED" = "DEB_VERSION_INSTALLED" ]
+then
+    echo "========version check successful========"
+    echo "status = $STATUS"
+else
+    echo "===========Version check failed=========="
+    echo "status = $STATUS"
+    exit 2
+fi
 
 if [ "$STATUS" = "200" ]
 then
