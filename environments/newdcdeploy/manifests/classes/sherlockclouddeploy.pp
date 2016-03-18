@@ -10,7 +10,7 @@ class sherlockclouddeploy {
     $appkey = "12"
     
     $repo_version = $::repoVersion
-    $downgrade_deb_version = $::downgradeDebVersion
+    $downgrade_deb_version = $::downgradedebversion
     
     exec { "infra-cli-command":
         command => "reposervice --host $repo_svc_host --port $repo_svc_port getenv --name $envName --appkey $appkey --version $envVersion | sudo tee /etc/apt/sources.list.d/sherlock.list",
