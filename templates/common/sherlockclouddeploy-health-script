@@ -22,10 +22,10 @@ echo "====================================================="
 if [ "$DEB_VERSION_TO_BE_INSTALLED" = "$DEB_VERSION_INSTALLED" ]
 then
     echo "========version check successful========"
-    echo "status = $DEB_VERSION_TO_BE_INSTALLED"
+    echo "debversion = $DEB_VERSION_TO_BE_INSTALLED"
 else
     echo "===========Version check failed=========="
-    echo "status = $DEB_VERSION_TO_BE_INSTALLED"
+    echo "DEB_VERSION_TO_BE_INSTALLED = $DEB_VERSION_TO_BE_INSTALLED DEB_VERSION_INSTALLED $DEB_VERSION_INSTALLED"
     exit 2
 fi
 

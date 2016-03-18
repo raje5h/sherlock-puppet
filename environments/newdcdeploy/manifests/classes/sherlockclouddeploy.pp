@@ -18,9 +18,8 @@ class sherlockclouddeploy {
     }
     
     exec { "apt-get-update":
-        command => "sudo apt-get update && echo \"udit\" $downgrade_deb_version",
+        command => "sudo apt-get update",
         path => [ "/bin/", "/usr/bin/" ],
-        logoutput => true,
         require => Exec["infra-cli-command"],
     } 
     
