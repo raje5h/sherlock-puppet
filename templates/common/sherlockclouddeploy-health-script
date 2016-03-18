@@ -4,7 +4,7 @@ HOST_NAME=`hostname`
 STATUS=`curl -I "http://$HOST_NAME:25280/sherlock/" | grep "HTTP" | awk '{print $2}'`
 ELB_HEALTHCHECK_API_STATUS=`curl -s -I "http://$HOST_NAME:25280/elb-healthcheck" | grep "HTTP" | awk '{print $2}'`
 
-REPO_VERSION="<%= @$repo_version%>"
+REPO_VERSION="<%= @repo_version%>"
 DEB_VERSION_TO_BE_INSTALLED=`apt-cache policy fk-w3-sherlock | grep  -B1 "/$REPO_VERSION" | grep -v "/$REPO_VERSION" | awk '{print $1}'`
 DEB_VERSION_INSTALLED=`apt-cache policy fk-w3-sherlock | grep Installed | awk '{print $2}'`
 
@@ -22,10 +22,10 @@ echo "====================================================="
 if [ "$DEB_VERSION_TO_BE_INSTALLED" = "DEB_VERSION_INSTALLED" ]
 then
     echo "========version check successful========"
-    echo "status = $STATUS"
+    echo "status = $DEB_VERSION_TO_BE_INSTALLED"
 else
     echo "===========Version check failed=========="
-    echo "status = $STATUS"
+    echo "status = $DEB_VERSION_TO_BE_INSTALLED"
     exit 2
 fi
 
