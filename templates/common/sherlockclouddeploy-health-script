@@ -5,7 +5,7 @@ STATUS=`curl -I "http://$HOST_NAME:25280/sherlock/" | grep "HTTP" | awk '{print 
 ELB_HEALTHCHECK_API_STATUS=`curl -s -I "http://$HOST_NAME:25280/elb-healthcheck" | grep "HTTP" | awk '{print $2}'`
 
 REPO_VERSION="<%= @repo_version%>"
-DEB_VERSION_TO_BE_INSTALLED=`apt-cache policy fk-w3-sherlock | grep  -B1 "/$REPO_VERSION" | grep -v "/$REPO_VERSION" | awk '{print $1}'`
+DEB_VERSION_TO_BE_INSTALLED=`apt-cache policy fk-w3-sherlock | grep  -B1 "/$REPO_VERSION" | grep -v "/$REPO_VERSION" | awk '{print $(NF-1)}'`
 DEB_VERSION_INSTALLED=`apt-cache policy fk-w3-sherlock | grep Installed | awk '{print $2}'`
 
 CURRENT_ROTATION_STATUS="<%= @currentRotationStatus %>"
