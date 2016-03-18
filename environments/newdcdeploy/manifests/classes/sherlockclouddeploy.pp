@@ -9,7 +9,7 @@ class sherlockclouddeploy {
     $repo_svc_port = "8080"
     $appkey = "12"
     
-    $repo_version = $::repoVersion
+    $repo_version = $::repoversion
     $downgrade_deb_version = $::downgradedebversion
     
     exec { "infra-cli-command":
