@@ -19,7 +19,7 @@ echo "====================================================="
 echo "Doing Health checks after package installation"
 echo "====================================================="
 
-if [ "$DEB_VERSION_TO_BE_INSTALLED" = "DEB_VERSION_INSTALLED" ]
+if [ "$DEB_VERSION_TO_BE_INSTALLED" = "$DEB_VERSION_INSTALLED" ]
 then
     echo "========version check successful========"
     echo "status = $DEB_VERSION_TO_BE_INSTALLED"
