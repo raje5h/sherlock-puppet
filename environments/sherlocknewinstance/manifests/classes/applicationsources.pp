@@ -3,7 +3,7 @@ class applicationsources {
     $envVersion = "HEAD"
     $envName = "sherlock-app-solr-search-env"
     
-    $cosmosEnvVersion = "3"
+    $cosmosEnvVersion = "5"
     $cosmosEnvName = "sherlock-cosmos-env"
     
     $repo_svc_host = "repo-svc-app-0001.nm.flipkart.com"
