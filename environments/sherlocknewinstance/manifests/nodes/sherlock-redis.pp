@@ -1,4 +1,4 @@
-node /^sherlock-app-cloud-redis/ {
+node /^sherlock-(app-cloud|test-env)-redis/ {
         include commoninfrasetup
         include tcpsettings
         include redispackageinstall
