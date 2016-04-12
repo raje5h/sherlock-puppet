@@ -1,8 +1,14 @@
 class cosmos {
 
+    exec { "remove-jq":
+        command => "sudo apt-get remove jq",
+        path => [ "/bin/", "/usr/bin" ] ,
+    }
+    
     exec { "cosmos-service-solr-app":
         command => "sudo echo 'sherlock-app' > /etc/default/cosmos-service",
         path => [ "/bin/", "/usr/bin" ] ,
+        require => Exec["remove-jq"],
     }
 
     exec { "fk-ops-sgp-sherlock-install":
