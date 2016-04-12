@@ -1,7 +1,7 @@
 class cosmos {
 
     exec { "remove-jq":
-        command => "sudo apt-get remove jq",
+        command => "sudo dpkg -r jq",
         path => [ "/bin/", "/usr/bin" ] ,
     }
     
