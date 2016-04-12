@@ -1,4 +1,4 @@
-node /^sherlock-app-cloud-sherlock-aggregator/ {
+node /^sherlock-(app-cloud|internal-app-cloud)-sherlock-aggregator/ {
         include commonsetup
         include applicationsources
         include applicationsetup
@@ -8,7 +8,7 @@ node /^sherlock-app-cloud-sherlock-aggregator/ {
         Class['commonsetup'] -> Class['applicationsources'] -> Class['applicationsetup'] -> Class['cosmos'] -> Class['alertz']
 }
 
-node /^sherlock-app-cloud/ {
+node /^sherlock-(app-cloud|internal-app-cloud)/ {
         include commonsetup
         include applicationsources
         include applicationsetup
