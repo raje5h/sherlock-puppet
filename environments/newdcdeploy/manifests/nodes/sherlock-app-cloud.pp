@@ -1,4 +1,4 @@
-node /^sherlock-app-cloud/ {
+node /^sherlock-(internal-app|app)-cloud/ {
         include sherlockclouddeploy
 }
 
