@@ -28,6 +28,7 @@ class hudsonrestart {
         path => [ "/bin/", "/usr/bin/" ],
         logoutput => true,
         timeout => 500,
+        try_sleep => 15,
         require => File["/home/vishal.goel/health-script.sh"],
     }
 }
