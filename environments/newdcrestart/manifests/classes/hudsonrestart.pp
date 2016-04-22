@@ -11,7 +11,7 @@ class hudsonrestart {
             logoutput => true,
             path => "/usr/bin/",
             tries => 2,
-            try_sleep => 10,
+            try_sleep => 15,
             require => Exec["restart"],
         }
 
