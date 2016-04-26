@@ -1,5 +1,7 @@
 class commonsetup {
     
+    $dpIp = $::dbEntry
+        
     exec { "infra-cli-source":
         command => "sudo echo 'deb http://10.47.2.22:80/repos/infra-cli/3 /' > /etc/apt/sources.list.d/infra-cli-svc.list",
         path => "/usr/bin/",
@@ -66,13 +68,13 @@ class commonsetup {
     }
     
     exec { "adding-host-4":
-        command => "echo '10.32.241.213   sherlock-app-slave-db.nm.flipkart.com' | sudo tee --append /etc/hosts",
+        command => "echo '$dpIp   sherlock-app-slave-db.nm.flipkart.com' | sudo tee --append /etc/hosts",
         path => [ "/bin/", "/usr/bin" ] ,
         require => Exec["adding-host-3"],
     }
     
     exec { "adding-host-5":
-        command => "echo '10.32.241.213    sherlock-slave-db.nm.flipkart.com' | sudo tee --append /etc/hosts",
+        command => "echo '$dpIp    sherlock-slave-db.nm.flipkart.com' | sudo tee --append /etc/hosts",
         path => [ "/bin/", "/usr/bin" ] ,
         require => Exec["adding-host-4"],
     }
