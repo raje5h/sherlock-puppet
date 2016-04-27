@@ -20,7 +20,7 @@ node /^sherlock-(app-cloud|internal-app-cloud)/ {
 }
 
 #check this later
-node /^sherlock-test-env-preprod/ {
+node /^sherlock-test-env-(preprod|perf)/ {
         include commonsetup
         include applicationsources
         include applicationsetup
