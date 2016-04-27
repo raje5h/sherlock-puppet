@@ -1,6 +1,6 @@
 class commonsetup {
     
-    $dpIp = $::dbEntry
+    $dpIp = $::db_entry
         
     exec { "infra-cli-source":
         command => "sudo echo 'deb http://10.47.2.22:80/repos/infra-cli/3 /' > /etc/apt/sources.list.d/infra-cli-svc.list",
