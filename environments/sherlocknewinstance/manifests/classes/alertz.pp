@@ -1,6 +1,6 @@
 class alertz {
   
-    $envVersion = "1"
+    $envVersion = "HEAD"
     $envName = "sherlock-alertz-env"
     $repo_svc_host = "repo-svc-app-0001.nm.flipkart.com"
     $repo_svc_port = "8080"
@@ -39,25 +39,18 @@ class alertz {
         require => Exec["apt-get install fk-nagios-common"],
     }
 
-    exec { "Setting team_name=sherlock":
-        command => "echo 'team_name=\"sherlock\"'  | sudo tee --append /etc/default/nsca_wrapper",
+    exec { "Setting team_name=Sherlock-Search":
+        command => "echo 'team_name=\"Sherlock-Search\"'  | sudo tee --append /etc/default/nsca_wrapper",
         path => [ "/bin/", "/usr/bin" ] ,
         logoutput => true,
         require => Exec["truncate nsca_wrapper"],
-    }
-
-    exec { "Setting nagios_server_ip=10.47.2.198":
-        command => "echo 'nagios_server_ip=\"10.47.2.198\"'  | sudo tee --append /etc/default/nsca_wrapper",
-        path => [ "/bin/", "/usr/bin" ] ,
-        logoutput => true,
-        require => Exec["Setting team_name=sherlock"],
     }
 
     exec { "kill dpkg":
         command => "echo `ps -ef | grep dpkg | grep -v grep | awk '{print $2}'` | sudo kill -9 --",
         path => [ "/bin/", "/usr/bin" ] ,
         logoutput => true,
-        require => Exec["Setting nagios_server_ip=10.47.2.198"],
+        require => Exec["Setting team_name=Sherlock-Search"],
     }
 
     exec { "apt-get install fk-ops-sgp-sherlock":
