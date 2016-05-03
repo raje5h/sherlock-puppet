@@ -23,6 +23,12 @@ class sherlockclouddeploy {
         require => Exec["infra-cli-command"],
     } 
     
+    exec { "reinstall-ha-proxy":
+        command => "sudo apt-get -y --allow-unauthenticated --force-yes install fk-sherlock-haproxy --reinstall",
+        path => [ "/bin/", "/usr/bin/" ],
+        require => Exec["apt-get-update"],
+    }
+    
     if($downgrade_deb_version == "FALSE") {
         exec { "fk-w3-sherlock":
           command => "sudo apt-get -y --allow-unauthenticated --force-yes install fk-w3-sherlock",
@@ -30,7 +36,7 @@ class sherlockclouddeploy {
           logoutput => false,
           tries => 2,
           timeout => 3000,
-          require => Exec["apt-get-update"],
+          require => Exec["reinstall-ha-proxy"],
         }  
     } else {
       exec { "fk-w3-sherlock":
@@ -39,7 +45,7 @@ class sherlockclouddeploy {
           logoutput => false,
           tries => 2,
           timeout => 3000,
-          require => Exec["apt-get-update"],
+          require => Exec["reinstall-ha-proxy"],
         }
     }
     
