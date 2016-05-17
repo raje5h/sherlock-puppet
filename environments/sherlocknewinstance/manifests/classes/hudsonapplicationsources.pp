@@ -1,13 +1,14 @@
-class application {
+class hudsonapplicationsources {
   
-    $envVersion = "3"
-    $envName = "sherlock-app-solr-env"
-    $repo_svc_host = "repo-svc-app-0001.nm.flipkart.com"
-    $repo_svc_port = "8080"
-    $appkey = "12"
+    $envVersion = "HEAD"
+    $envName = "sherlock-hudson-env"
     
     $cosmosEnvVersion = "3"
     $cosmosEnvName = "sherlock-cosmos-env"
+    
+    $repo_svc_host = "repo-svc-app-0001.nm.flipkart.com"
+    $repo_svc_port = "8080"
+    $appkey = "12"
     
     $bucket = $::configbucket
     $cluster_fact = $::uniquefact
@@ -29,27 +30,10 @@ class application {
         path => "/usr/bin/",
         require => Exec["infra-cli-command"],
     }
+    
     exec { "apt-get-update":
         command => "sudo apt-get update",
         path => "/usr/bin/",
         require => Exec["cosmos-sources-list"],
-    }
-    
-    exec { "install-ha-proxy":
-        command => "sudo apt-get -y --allow-unauthenticated --force-yes install fk-sherlock-haproxy",
-        path => "/usr/bin",
-        logoutput => true,
-        tries => 2,
-        timeout => 300,
-        require => Exec["apt-get-update"],
-    }
-    
-    exec { "fk-w3-sherlock":
-        command => "sudo apt-get -y --allow-unauthenticated --force-yes install fk-w3-sherlock",
-        path => "/usr/bin",
-        logoutput => true,
-        tries => 2,
-        timeout => 3000,
-        require => Exec["install-ha-proxy"],
-    }
+    }    
 }

@@ -1,7 +1,8 @@
 class sample {
     
-    exec { "apt-update":
-        command => "sudo apt-get update",
-        path => "/usr/bin/",
-    }
+    exec { "restart":
+            command => "sudo /etc/init.d/fk-w3-hudson restart",
+            logoutput => true,
+            path => "/usr/bin/",
+    }  
 }

@@ -1,0 +1,61 @@
+#!bin/sh
+
+HOST_NAME=`hostname`
+STATUS=`curl -I "http://$HOST_NAME:25280/sherlock/" | grep "HTTP" | awk '{print $2}'`
+ELB_HEALTHCHECK_API_STATUS=`curl -s -I "http://$HOST_NAME:25280/elb-healthcheck" | grep "HTTP" | awk '{print $2}'`
+
+REPO_VERSION="<%= @repo_version%>"
+DEB_VERSION_TO_BE_INSTALLED=`apt-cache policy fk-w3-sherlock | grep  -B1 "/$REPO_VERSION" | grep -v "/$REPO_VERSION" | awk '{print $(NF-1)}'`
+DEB_VERSION_INSTALLED=`apt-cache policy fk-w3-sherlock | grep Installed | awk '{print $2}'`
+
+CURRENT_ROTATION_STATUS="<%= @currentRotationStatus %>"
+
+NEW_ROTATION_STATUS="`fk-w3-sherlock-admin status`"
+SOLR_API="http://$HOST_NAME:25280/solr/admin/cores?action=STATUS&wt=json"
+
+CORE_INIT_FAILURES=`curl -H "Accept: application/json" "$SOLR_API" | grep -Po '("initFailures":{})'`
+CORE_SUCCESS_CRITERIA="\"initFailures\":{}"
+echo "====================================================="
+echo "Doing Health checks after package installation"
+echo "====================================================="
+
+if [ "$DEB_VERSION_TO_BE_INSTALLED" = "$DEB_VERSION_INSTALLED" ]
+then
+    echo "========version check successful========"
+    echo "debversion = $DEB_VERSION_TO_BE_INSTALLED"
+else
+    echo "===========Version check failed=========="
+    echo "DEB_VERSION_TO_BE_INSTALLED = $DEB_VERSION_TO_BE_INSTALLED DEB_VERSION_INSTALLED $DEB_VERSION_INSTALLED"
+    exit 2
+fi
+
+if [ "$STATUS" = "200" ]
+then
+    echo "========curl command successful========"
+    echo "status = $STATUS"
+else
+    echo "===========curl command failed=========="
+    echo "status = $STATUS"
+    exit 2
+fi
+
+
+if [ "$CURRENT_ROTATION_STATUS" = "$NEW_ROTATION_STATUS" ]
+then
+    echo "====rotation status check successful==="
+    echo "rotation status = $NEW_ROTATION_STATUS"
+else
+    echo "======rotation status check failed======"
+    echo "current_rotation_status=$CURRENT_ROTATION_STATUS   New_rotation_status=$NEW_ROTATION_STATUS"
+    exit 2
+fi
+
+if [ "$CORE_INIT_FAILURES" = "$CORE_SUCCESS_CRITERIA" ]
+then
+    echo "====core initialisation successful====="
+    exit 0
+else
+    echo "======core initialisation failure======"
+    echo "core_init_failures=$CORE_INIT_FAILURES  core_success_criteria=$CORE_SUCCESS_CRITERIA"
+    exit 2
+fi

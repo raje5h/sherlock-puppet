@@ -1,18 +1,34 @@
-class cosmos {
+class cosmosredis {
+  
+    $bucket = $::configbucket
+    $cluster_fact = $::uniquefact
+    
+    $cosmosEnvVersion = "3"
+    $cosmosEnvName = "sherlock-cosmos-env"
 
-    exec { "remove-jq":
-        command => "sudo dpkg -r jq",
-        path => [ "/bin/", "/usr/bin" ] ,
+    $repo_svc_host = "repo-svc-app-0001.nm.flipkart.com"
+    $repo_svc_port = "8080"
+    $appkey = "12"
+    
+    exec { "cosmos-sources-list":
+        command => "reposervice --host $repo_svc_host --port $repo_svc_port getenv --name $cosmosEnvName --appkey $appkey --version $cosmosEnvVersion > /etc/apt/sources.list.d/sherlock-cosmos.list",
+        path => "/usr/bin/",
+        require => Exec["infra-cli-command"],
     }
     
+    exec { "apt-get-update":
+        command => "sudo apt-get update",
+        path => "/usr/bin/",
+        require => Exec["cosmos-sources-list"],
+    }   
     exec { "cosmos-service-solr-app":
-        command => "sudo echo 'sherlock-app' > /etc/default/cosmos-service",
+        command => "sudo echo '$cluster_fact' > /etc/default/cosmos-service",
         path => [ "/bin/", "/usr/bin" ] ,
-        require => Exec["remove-jq"],
+        require => Exec["apt-get-update"],
     }
 
-    exec { "fk-ops-sgp-sherlock-install":
-        command => "sudo apt-get install --yes --allow-unauthenticated fk-ops-sgp-sherlock --reinstall",
+    exec { "update-role":
+        command => "sudo echo '$cluster_fact' > /etc/default/cosmos-role",
         path => [ "/bin/", "/usr/bin" ] ,
         require => Exec["cosmos-service-solr-app"],
     }
@@ -20,7 +36,7 @@ class cosmos {
     exec { "fk-config-service-confd":
         command => "sudo apt-get install --yes --allow-unauthenticated fk-config-service-confd  --reinstall",
         path => [ "/bin/", "/usr/bin" ] ,
-        require => Exec["fk-ops-sgp-sherlock-install"],
+        require => Exec["update-role"],
     }
 
     exec { "stream-relay":

@@ -1,22 +1,5 @@
 class cosmos {
 
-    exec { "remove-jq":
-        command => "sudo dpkg -r jq",
-        path => [ "/bin/", "/usr/bin" ] ,
-    }
-    
-    exec { "cosmos-service-solr-app":
-        command => "sudo echo 'sherlock-app' > /etc/default/cosmos-service",
-        path => [ "/bin/", "/usr/bin" ] ,
-        require => Exec["remove-jq"],
-    }
-
-    exec { "fk-ops-sgp-sherlock-install":
-        command => "sudo apt-get install --yes --allow-unauthenticated fk-ops-sgp-sherlock --reinstall",
-        path => [ "/bin/", "/usr/bin" ] ,
-        require => Exec["cosmos-service-solr-app"],
-    }
-
     exec { "fk-config-service-confd":
         command => "sudo apt-get install --yes --allow-unauthenticated fk-config-service-confd  --reinstall",
         path => [ "/bin/", "/usr/bin" ] ,
@@ -51,11 +34,5 @@ class cosmos {
         command => "sudo /etc/init.d/cosmos-jmx restart",
         path => [ "/bin/", "/usr/bin" ] ,
         require => Exec["cosmos-statsd"],
-    }
-
-    exec { "fk-ops-sgp-sherlock-reinstall":
-        command => "sudo apt-get install --yes --allow-unauthenticated fk-ops-sgp-sherlock --reinstall",
-        path => [ "/bin/", "/usr/bin" ] ,
-        require => Exec["cosmos-jmx-restart"],
     }
 }

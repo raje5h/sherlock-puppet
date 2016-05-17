@@ -1,5 +1,7 @@
 class hudsonrestart {
 
+    $currentRotationStatus = $::hudsonrotationstatus
+    
     exec { "restart":
             command => "sudo /etc/init.d/fk-w3-hudson restart",
             logoutput => true,
@@ -11,7 +13,7 @@ class hudsonrestart {
             logoutput => true,
             path => "/usr/bin/",
             tries => 2,
-            try_sleep => 10,
+            try_sleep => 15,
             require => Exec["restart"],
         }
 
@@ -28,6 +30,7 @@ class hudsonrestart {
         path => [ "/bin/", "/usr/bin/" ],
         logoutput => true,
         timeout => 500,
+        try_sleep => 15,
         require => File["/home/vishal.goel/health-script.sh"],
     }
 }
