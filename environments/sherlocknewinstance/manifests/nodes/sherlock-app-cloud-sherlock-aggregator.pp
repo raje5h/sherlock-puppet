@@ -13,11 +13,12 @@ node /^sherlock-(app-cloud|internal-app-cloud)-solr-only/ {
         include commonsetup
         include solrdiskmount
         include solrapplicationsources
+        include haproxy
         include solrapplicationsetup
         include cosmos
         include alertz
         
-        Class['commonsetup'] -> Class['solrdiskmount'] -> Class['solrapplicationsources'] -> Class['solrapplicationsetup'] -> Class['cosmos'] -> Class['alertz']
+        Class['commonsetup'] -> Class['solrdiskmount'] -> Class['solrapplicationsources'] ->  Class['haproxy'] -> Class['solrapplicationsetup'] -> Class['cosmos'] -> Class['alertz']
 }
 
 node /^sherlock-(app-cloud|internal-app-cloud)/ {
