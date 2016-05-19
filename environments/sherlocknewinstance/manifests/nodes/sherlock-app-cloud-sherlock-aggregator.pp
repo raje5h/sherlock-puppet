@@ -9,7 +9,7 @@ node /^sherlock-(app-cloud|internal-app-cloud)-sherlock-aggregator/ {
         Class['commonsetup'] -> Class['sherlockdiskmount'] -> Class['applicationsources'] -> Class['applicationsetup'] -> Class['cosmos'] -> Class['alertz']
 }
 
-node /^sherlock-(app-cloud|internal-app-cloud)-sherlock-solr/ {
+node /^sherlock-(app-cloud|internal-app-cloud)-solr-only/ {
         include commonsetup
         include solrdiskmount
         include solrapplicationsources
