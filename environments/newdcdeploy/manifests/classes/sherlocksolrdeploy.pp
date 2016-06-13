@@ -49,20 +49,19 @@ class sherlocksolrdeploy {
         }
     }
     
-
-    file { "/etc/default/sherlockclouddeploy-health-script.sh":
+    file { "/etc/default/sherlocksolrdeploy-health-script.sh":
         owner => root,
         group => root,
-        content => template("common/sherlockclouddeploy-health-script"),
+        content => template("common/sherlocksolrdeploy-health-script"),
         mode => 777,
         require => Exec["fk-sherlock-solr"],
     }
 
     exec { "health-check-script":
-         command => "sh /etc/default/sherlockclouddeploy-health-script.sh",
+         command => "sh /etc/default/sherlocksolrdeploy-health-script.sh",
          path => [ "/bin/", "/usr/bin/" ],
          tries => 2,
          logoutput => true,
-         require => File["/etc/default/sherlockclouddeploy-health-script.sh"]
+         require => File["/etc/default/sherlocksolrdeploy-health-script.sh"]
     }
 }
