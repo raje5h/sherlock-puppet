@@ -48,7 +48,7 @@ class sherlocksolrdeploy {
           require => Exec["reinstall-ha-proxy"],
         }
     }
-    
+
     file { "/etc/default/sherlocksolrdeploy-health-script.sh":
         owner => root,
         group => root,
