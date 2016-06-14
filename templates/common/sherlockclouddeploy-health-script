@@ -1,7 +1,7 @@
 #!bin/sh
 
 HOST_NAME=`hostname`
-STATUS=`curl -I "http://$HOST_NAME:25280/solr/admin.html" | grep "HTTP" | awk '{print $2}'`
+STATUS=`curl -I "http://$HOST_NAME:25280/sherlock/" | grep "HTTP" | awk '{print $2}'`
 ELB_HEALTHCHECK_API_STATUS=`curl -s -I "http://$HOST_NAME:25280/elb-healthcheck" | grep "HTTP" | awk '{print $2}'`
 
 REPO_VERSION="<%= @repo_version%>"
