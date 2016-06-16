@@ -1,7 +1,7 @@
 class tcpsettings {
   
   exec { "tcp-setting-1":
-        command => "echo 'net.core.somaxconn=512' | sudo tee --append /etc/sysctl.d/sherlock.conf",
+        command => "echo 'net.core.somaxconn=512' | sudo tee /etc/sysctl.d/sherlock.conf",
         path => [ "/bin/", "/usr/bin" ] ,
     }
     

@@ -1,6 +1,9 @@
 
 node /^sherlock-app-cloud-solr-only/ {
         include sherlocksolrdeploy
+        include tcpsettings
+        
+         Class['tcpsettings'] -> Class['sherlocksolrdeploy']
 }
 
 node /^sherlock-(internal-app|app)-cloud/ {
