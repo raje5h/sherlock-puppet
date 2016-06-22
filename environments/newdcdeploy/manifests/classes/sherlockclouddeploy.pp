@@ -4,7 +4,7 @@ class sherlockclouddeploy {
     $currentRotationStatus = $::rotationstatus
 
     $envVersion = "HEAD"
-    $envName = "sherlock-app-solr-search-env"
+    $envName = "sherlock-app-core-env"
     $repo_svc_host = "repo-svc-app-0001.nm.flipkart.com"
     $repo_svc_port = "8080"
     $appkey = "12"
