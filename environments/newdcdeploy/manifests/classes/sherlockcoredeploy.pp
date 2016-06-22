@@ -1,4 +1,4 @@
-class sherlocksolrdeploy {
+class sherlockcoredeploy {
 
     $packageVersion = $::sherlockversion
     $currentRotationStatus = $::rotationstatus
@@ -49,7 +49,7 @@ class sherlocksolrdeploy {
         }
     }
 
-    file { "/etc/default/sherlocksolrdeploy-health-script.sh":
+    file { "/etc/default/sherlockcoredeploy-health-script.sh":
         owner => root,
         group => root,
         content => template("common/sherlocksolrdeploy-health-script"),
