@@ -14,13 +14,13 @@ class etchostrefresh {
     }
     
     exec { "removing-host-3":
-        command => "sudo sed -i '/.*10.65.100.54   ops-statsd.nm.flipkart.com.*/d' /etc/hosts",
+        command => "sudo sed -i '/.*ops-statsd.nm.flipkart.com.*/d' /etc/hosts",
         path => [ "/bin/", "/usr/bin" ] ,
         require => Exec["removing-host-2"],
     }
     
     exec { "removing-host-4":
-        command => "sudo sed -i '$dpIp   sherlock-app-slave-db.nm.flipkart.com.*/d' /etc/hosts",
+        command => "sudo sed -i 'sherlock-app-slave-db.nm.flipkart.com.*/d' /etc/hosts",
         path => [ "/bin/", "/usr/bin" ] ,
         require => Exec["removing-host-3"],
     }
