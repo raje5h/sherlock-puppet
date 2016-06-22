@@ -11,7 +11,8 @@ node /^sherlock-(internal-app|app)-cloud/ {
         include sherlocksolrdeploy
         include tcpsettings
         include etchostrefresh
-         Class['etchostrefresh'] -> Class['tcpsettings'] -> Class['sherlocksolrdeploy']
+        
+        Class['etchostrefresh'] -> Class['tcpsettings'] -> Class['sherlocksolrdeploy']
 }
 
 node /^sherlock-test-env-(preprod|perf).*(aggregator)/ {

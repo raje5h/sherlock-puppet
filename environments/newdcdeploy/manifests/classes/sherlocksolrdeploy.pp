@@ -12,40 +12,40 @@ class sherlocksolrdeploy {
     $solr_repo_version = $::repoversion
     $solr_downgrade_deb_version = $::downgradedebversion
     
-    exec { "infra-cli-command":
+    exec { "solr-infra-cli-command":
         command => "reposervice --host $solr_repo_svc_host --port $solr_repo_svc_port getenv --name $solrEnvName --appkey $solr_appkey --version $solrEnvVersion | sudo tee /etc/apt/sources.list.d/sherlock.list",
         path => "/usr/bin/",
     }
     
-    exec { "apt-get-update":
+    exec { "solr-apt-get-update":
         command => "sudo apt-get update",
         path => [ "/bin/", "/usr/bin/" ],
-        require => Exec["infra-cli-command"],
+        require => Exec["solr-infra-cli-command"],
     } 
     
-    exec { "reinstall-ha-proxy":
+    exec { "solr-reinstall-ha-proxy":
         command => "sudo apt-get -y --allow-unauthenticated --force-yes install fk-sherlock-haproxy --reinstall",
         path => [ "/bin/", "/usr/bin/" ],
-        require => Exec["apt-get-update"],
+        require => Exec["solr-apt-get-update"],
     }
     
     if($solr_downgrade_deb_version == "FALSE") {
-        exec { "fk-sherlock-solr":
+        exec { "solr-fk-sherlock-solr":
           command => "sudo apt-get -y --allow-unauthenticated --force-yes install fk-sherlock-solr",
           path => "/usr/bin",
           logoutput => false,
           tries => 2,
           timeout => 3000,
-          require => Exec["reinstall-ha-proxy"],
+          require => Exec["solr-reinstall-ha-proxy"],
         }  
     } else {
-      exec { "fk-sherlock-solr":
+      exec { "solr-fk-sherlock-solr":
           command => "sudo apt-get -y --allow-unauthenticated --force-yes install fk-sherlock-solr=$solr_downgrade_deb_version",
           path => "/usr/bin",
           logoutput => false,
           tries => 2,
           timeout => 3000,
-          require => Exec["reinstall-ha-proxy"],
+          require => Exec["solr-reinstall-ha-proxy"],
         }
     }
 
@@ -54,10 +54,10 @@ class sherlocksolrdeploy {
         group => root,
         content => template("common/sherlocksolrdeploy-health-script"),
         mode => 777,
-        require => Exec["fk-sherlock-solr"],
+        require => Exec["solr-fk-sherlock-solr"],
     }
 
-    exec { "health-check-script":
+    exec { "solr-health-check-script":
          command => "sh /etc/default/sherlocksolrdeploy-health-script.sh",
          path => [ "/bin/", "/usr/bin/" ],
          tries => 2,
