@@ -5,8 +5,8 @@ node /^sherlock-(app-cloud|internal-app-cloud)-sherlock-aggregator/ {
         include applicationsetup
         include cosmos
         include alertz
-        
-        Class['commonsetup'] -> Class['sherlockdiskmount'] -> Class['applicationsources'] -> Class['applicationsetup'] -> Class['cosmos'] -> Class['alertz']
+        include tcpsettings
+        Class['commonsetup'] -> Class['tcpsettings'] -> Class['sherlockdiskmount'] -> Class['applicationsources'] -> Class['applicationsetup'] -> Class['cosmos'] -> Class['alertz']
 }
 
 node /^sherlock-(app-cloud|internal-app-cloud)-solr-only/ {
@@ -17,8 +17,9 @@ node /^sherlock-(app-cloud|internal-app-cloud)-solr-only/ {
         include solrapplicationsetup
         include cosmos
         include alertz
+        include tcpsettings
         
-        Class['commonsetup'] -> Class['solrdiskmount'] -> Class['solrapplicationsources'] ->  Class['haproxy'] -> Class['solrapplicationsetup'] -> Class['cosmos'] -> Class['alertz']
+        Class['commonsetup'] -> Class['tcpsettings'] -> Class['solrdiskmount'] -> Class['solrapplicationsources'] ->  Class['haproxy'] -> Class['solrapplicationsetup'] -> Class['cosmos'] -> Class['alertz']
 }
 
 node /^sherlock-(app-cloud|internal-app-cloud)/ {
@@ -29,8 +30,9 @@ node /^sherlock-(app-cloud|internal-app-cloud)/ {
         include haproxy
         include cosmos
         include alertz
+        include tcpsettings
         
-        Class['commonsetup'] -> Class['sherlockdiskmount'] -> Class['applicationsources'] ->  Class['haproxy'] -> Class['applicationsetup'] -> Class['cosmos'] -> Class['alertz']
+        Class['commonsetup'] -> Class['tcpsettings'] -> Class['sherlockdiskmount'] -> Class['applicationsources'] ->  Class['haproxy'] -> Class['applicationsetup'] -> Class['cosmos'] -> Class['alertz']
 }
 
 #check this later
@@ -42,8 +44,9 @@ node /^sherlock-test-env-(preprod|perf)/ {
         include haproxy
         include cosmos
         include alertz
+        include tcpsettings
         
-        Class['commonsetup'] -> Class['sherlockdiskmount'] -> Class['applicationsources'] ->  Class['haproxy'] -> Class['applicationsetup'] -> Class['cosmos'] -> Class['alertz']
+        Class['commonsetup'] -> Class['tcpsettings'] -> Class['sherlockdiskmount'] -> Class['applicationsources'] ->  Class['haproxy'] -> Class['applicationsetup'] -> Class['cosmos'] -> Class['alertz']
 }
 
 node /^sherlock-test-env-preprod-hudson/ {
@@ -52,6 +55,6 @@ node /^sherlock-test-env-preprod-hudson/ {
         include hudsonapplicationsetup
         include hudsoncosmos
         include alertz
-        
-        Class['hudsoncommonsetup'] -> Class['hudsonapplicationsources'] -> Class['hudsonapplicationsetup'] -> Class['hudsoncosmos'] -> Class['alertz']
+        include tcpsettings
+        Class['hudsoncommonsetup'] -> Class['tcpsettings'] -> Class['hudsonapplicationsources'] -> Class['hudsonapplicationsetup'] -> Class['hudsoncosmos'] -> Class['alertz']
 }
