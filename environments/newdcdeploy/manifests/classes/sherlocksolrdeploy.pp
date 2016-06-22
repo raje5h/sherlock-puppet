@@ -3,17 +3,17 @@ class sherlocksolrdeploy {
     $solrPackageVersion = $::sherlockversion
     $solrCurrentRotationStatus = $::rotationstatus
 
-    $envVersion = "HEAD"
-    $envName = "sherlock-app-solr-only-env"
-    $repo_svc_host = "repo-svc-app-0001.nm.flipkart.com"
-    $repo_svc_port = "8080"
-    $appkey = "12"
+    $solrEnvVersion = "HEAD"
+    $solrEnvName = "sherlock-app-solr-only-env"
+    $solr_repo_svc_host = "repo-svc-app-0001.nm.flipkart.com"
+    $solr_repo_svc_port = "8080"
+    $solr_appkey = "12"
     
     $repo_version = $::repoversion
     $downgrade_deb_version = $::downgradedebversion
     
     exec { "infra-cli-command":
-        command => "reposervice --host $repo_svc_host --port $repo_svc_port getenv --name $envName --appkey $appkey --version $envVersion | sudo tee /etc/apt/sources.list.d/sherlock.list",
+        command => "reposervice --host $solr_repo_svc_host --port $solr_repo_svc_port getenv --name $solrEnvName --appkey $solr_appkey --version $solrEnvVersion | sudo tee /etc/apt/sources.list.d/sherlock.list",
         path => "/usr/bin/",
     }
     
