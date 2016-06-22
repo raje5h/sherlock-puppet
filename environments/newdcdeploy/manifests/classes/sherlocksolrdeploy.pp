@@ -1,7 +1,7 @@
 class sherlocksolrdeploy {
 
-    $solrPackageVersion = $::sherlockversion
-    $solrCurrentRotationStatus = $::rotationstatus
+    $solrPackageVersion = $::solrversion
+    $solrCurrentRotationStatus = $::solrrotationstatus
 
     $solrEnvVersion = "HEAD"
     $solrEnvName = "sherlock-app-solr-only-env"

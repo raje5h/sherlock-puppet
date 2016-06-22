@@ -4,13 +4,13 @@ HOST_NAME=`hostname`
 STATUS=`curl -I "http://$HOST_NAME:25280/solr/admin.html" | grep "HTTP" | awk '{print $2}'`
 ELB_HEALTHCHECK_API_STATUS=`curl -s -I "http://$HOST_NAME:25280/elb-healthcheck" | grep "HTTP" | awk '{print $2}'`
 
-REPO_VERSION="<%= @repo_version%>"
-DEB_VERSION_TO_BE_INSTALLED=`apt-cache policy fk-w3-sherlock | grep  -B1 "/$REPO_VERSION" | grep -v "/$REPO_VERSION" | awk '{print $(NF-1)}'`
-DEB_VERSION_INSTALLED=`apt-cache policy fk-w3-sherlock | grep Installed | awk '{print $2}'`
+REPO_VERSION="<%= @solr_repo_version%>"
+DEB_VERSION_TO_BE_INSTALLED=`apt-cache policy fk-sherlock-solr | grep  -B1 "/$REPO_VERSION" | grep -v "/$REPO_VERSION" | awk '{print $(NF-1)}'`
+DEB_VERSION_INSTALLED=`apt-cache policy fk-sherlock-solr | grep Installed | awk '{print $2}'`
 
-CURRENT_ROTATION_STATUS="<%= @currentRotationStatus %>"
+CURRENT_ROTATION_STATUS="<%= @solrCurrentRotationStatus %>"
 
-NEW_ROTATION_STATUS="`fk-w3-sherlock-admin status`"
+NEW_ROTATION_STATUS="`fk-sherlock-solr-admin status`"
 SOLR_API="http://$HOST_NAME:25280/solr/admin/cores?action=STATUS&wt=json"
 
 CORE_INIT_FAILURES=`curl -H "Accept: application/json" "$SOLR_API" | grep -Po '("initFailures":{})'`
