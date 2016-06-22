@@ -20,7 +20,7 @@ class etchostrefresh {
     }
     
     exec { "removing-host-4":
-        command => "sudo sed -i 'sherlock-app-slave-db.nm.flipkart.com.*/d' /etc/hosts",
+        command => "sudo sed -i '/.*sherlock-app-slave-db.nm.flipkart.com.*/d' /etc/hosts",
         path => [ "/bin/", "/usr/bin" ] ,
         require => Exec["removing-host-3"],
     }
