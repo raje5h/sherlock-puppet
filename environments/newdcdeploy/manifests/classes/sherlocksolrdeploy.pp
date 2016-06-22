@@ -9,8 +9,8 @@ class sherlocksolrdeploy {
     $solr_repo_svc_port = "8080"
     $solr_appkey = "12"
     
-    $repo_version = $::repoversion
-    $downgrade_deb_version = $::downgradedebversion
+    $solr_repo_version = $::repoversion
+    $solr_downgrade_deb_version = $::downgradedebversion
     
     exec { "infra-cli-command":
         command => "reposervice --host $solr_repo_svc_host --port $solr_repo_svc_port getenv --name $solrEnvName --appkey $solr_appkey --version $solrEnvVersion | sudo tee /etc/apt/sources.list.d/sherlock.list",
@@ -29,7 +29,7 @@ class sherlocksolrdeploy {
         require => Exec["apt-get-update"],
     }
     
-    if($downgrade_deb_version == "FALSE") {
+    if($solr_downgrade_deb_version == "FALSE") {
         exec { "fk-sherlock-solr":
           command => "sudo apt-get -y --allow-unauthenticated --force-yes install fk-sherlock-solr",
           path => "/usr/bin",
@@ -40,7 +40,7 @@ class sherlocksolrdeploy {
         }  
     } else {
       exec { "fk-sherlock-solr":
-          command => "sudo apt-get -y --allow-unauthenticated --force-yes install fk-sherlock-solr=$downgrade_deb_version",
+          command => "sudo apt-get -y --allow-unauthenticated --force-yes install fk-sherlock-solr=$solr_downgrade_deb_version",
           path => "/usr/bin",
           logoutput => false,
           tries => 2,
