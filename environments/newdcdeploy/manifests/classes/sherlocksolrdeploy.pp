@@ -1,6 +1,6 @@
 class sherlocksolrdeploy {
 
-    $packageVersion = $::sherlockversion
+    $solrPackageVersion = $::sherlockversion
     $currentRotationStatus = $::rotationstatus
 
     $envVersion = "HEAD"
