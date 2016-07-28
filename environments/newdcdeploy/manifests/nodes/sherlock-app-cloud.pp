@@ -24,7 +24,7 @@ node /^sherlock-test-env.*aggregator/ {
 }
 
 
-node /^sherlock-test-env.*solr-only/ {
+node /^sherlock-test-env.*(solr-only|shard)/ {
         include sherlocksolrdeploy
         include tcpsettings
         include etchostrefresh
