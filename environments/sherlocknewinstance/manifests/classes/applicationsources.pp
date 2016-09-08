@@ -1,7 +1,7 @@
 class applicationsources {
   
     $envVersion = "HEAD"
-    $envName = "sherlock-app-solr-search-env"
+    $envName = "sherlock-app-core-env"
     
     $cosmosEnvVersion = "5"
     $cosmosEnvName = "sherlock-cosmos-env"
