@@ -18,17 +18,22 @@ class hudsoncommonsetup {
     }
     
     exec { "adding-host-1":
-        command => "echo '10.65.30.211  pf-config-publish-alt.nm.flipkart.com' | sudo tee --append /etc/hosts",
+        command => "echo '10.47.2.104  pf-config-publish-alt.nm.flipkart.com' | sudo tee --append /etc/hosts",
         path => [ "/bin/", "/usr/bin" ] ,
         require => Exec["infra-cli-install"],
     }
     
     exec { "adding-host-2":
-        command => "echo '10.65.38.79   pf-config-manage.nm.flipkart.com' | sudo tee --append /etc/hosts",
+        command => "echo '10.84.80.41   pf-config-manage.nm.flipkart.com' | sudo tee --append /etc/hosts",
         path => [ "/bin/", "/usr/bin" ] ,
         require => Exec["adding-host-1"],
     }
     
+    exec { "adding-host-2":
+        command => "echo '10.47.2.104  pf-config-publish.nm.flipkart.com' | sudo tee --append /etc/hosts",
+        path => [ "/bin/", "/usr/bin" ] ,
+        require => Exec["adding-host-1"],
+    }
     exec { "adding-host-3":
         command => "echo '10.65.100.54   ops-statsd.nm.flipkart.com' | sudo tee --append /etc/hosts",
         path => [ "/bin/", "/usr/bin" ] ,
