@@ -9,6 +9,17 @@ node /^sherlock-(app|app-cloud|internal-app-cloud).*aggregator/ {
         Class['commonsetup'] -> Class['tcpsettings'] -> Class['sherlockdiskmount'] -> Class['applicationsources'] -> Class['applicationsetup'] -> Class['cosmos'] -> Class['alertz']
 }
 
+node /^sherlock-(app|app-cloud|internal-app-cloud).*semantic-service/ {
+        include commonsetup
+        include sherlockdiskmount
+        include applicationsources
+        include applicationsetup
+        include cosmos
+        include alertz
+        include tcpsettings
+        Class['commonsetup'] -> Class['tcpsettings'] -> Class['sherlockdiskmount'] -> Class['applicationsources'] -> Class['applicationsetup'] -> Class['cosmos'] -> Class['alertz']
+}
+
 node /^sherlock-(app|app-cloud|internal-app-cloud|test-env).*solr-only/ {
         include commonsetup
         include solrdiskmount
