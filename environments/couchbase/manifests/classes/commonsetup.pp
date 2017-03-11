@@ -17,7 +17,7 @@ class commonsetup {
     }
 
     exec { "adding-host-6":
-        command => "echo '10.47.2.104    pf-config-publish.nm.flipkart.com' | sudo tee --append /etc/hosts",
+        command => "echo '10.47.4.204    pf-config-publish.nm.flipkart.com' | sudo tee --append /etc/hosts",
         path => [ "/bin/", "/usr/bin" ] ,
         require => Exec["adding-host-5"],
     }

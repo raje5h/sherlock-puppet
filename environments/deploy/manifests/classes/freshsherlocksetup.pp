@@ -31,7 +31,7 @@ class freshsherlocksetup {
     }
     
     exec { "add-db-mapping1":
-        command => "echo '10.47.2.104 pf-config-publish-alt.nm.flipkart.com' | sudo tee -a /etc/hosts",
+        command => "echo '10.47.4.204 pf-config-publish-alt.nm.flipkart.com' | sudo tee -a /etc/hosts",
         path => [ "/bin/", "/usr/bin" ] ,
         require => Exec["update-cluster-name"],
     }
@@ -43,7 +43,7 @@ class freshsherlocksetup {
     }
 
     exec { "add-db-mapping3":
-        command => "echo '10.84.80.41 pf-config-manage.nm.flipkart.com' | sudo tee -a /etc/hosts",
+        command => "echo '10.47.4.205 pf-config-manage.nm.flipkart.com' | sudo tee -a /etc/hosts",
         path => [ "/bin/", "/usr/bin" ] ,
         require => Exec["add-db-mapping2"],
     }
