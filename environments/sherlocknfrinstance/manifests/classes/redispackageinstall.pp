@@ -33,7 +33,7 @@ class redispackageinstall {
     }
     
     exec {"redis-update-config":
-        command => "sudo /etc/init.d/fk-3p-redis update-confd-prefix server `curl -s \"http://10.47.0.101/v1/buckets/$bucket\" | grep -o '\"$redis_bucket_name\":[^,]*' | cut -d '\"' -f4`",
+        command => "sudo /etc/init.d/fk-3p-redis update-confd-prefix server `curl -s \"http://10.85.42.9/v1/buckets/$bucket\" | grep -o '\"$redis_bucket_name\":[^,]*' | cut -d '\"' -f4`",
         path => [ "/bin/", "/usr/bin" ],
         logoutput => true,
         tries => 2,
