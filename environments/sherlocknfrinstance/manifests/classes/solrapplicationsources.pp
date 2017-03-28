@@ -24,11 +24,16 @@ class solrapplicationsources {
         path => "/usr/bin/",
         require => Exec["update-cluster-name"],
     }
-    
+    exec { "replace ha-proxy version to 19":
+      command => "sudo sed -i 's/proxy\/22/proxy\/19/g' /etc/apt/sources.list.d/sherlock.list",
+      path => "/usr/bin/",
+      require => Exec["infra-cli-command"],
+    }
+
      exec { "cosmos-sources-list":
         command => "reposervice --host $repo_svc_host --port $repo_svc_port getenv --name $cosmosEnvName --appkey $appkey --version $cosmosEnvVersion > /etc/apt/sources.list.d/sherlock-cosmos.list",
         path => "/usr/bin/",
-        require => Exec["infra-cli-command"],
+        require => Exec["replace ha-proxy version to 19"],
     }
     
     exec { "apt-get-update":
