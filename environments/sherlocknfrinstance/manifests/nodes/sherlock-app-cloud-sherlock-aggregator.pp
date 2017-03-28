@@ -24,7 +24,6 @@ node /^sherlock-gamma.*solr-only/ {
         include commonsetup
         include solrdiskmount
         include solrapplicationsources
-        include haproxy
         include solrapplicationsetup
         include cosmos
         include alertz
