@@ -29,7 +29,7 @@ node /^sherlock-gamma.*solr-only/ {
         include alertz
         include tcpsettings
         
-        Class['commonsetup'] -> Class['tcpsettings'] -> Class['solrdiskmount'] -> Class['solrapplicationsources'] ->  Class['haproxy'] -> Class['solrapplicationsetup'] -> Class['cosmos'] -> Class['alertz']
+        Class['commonsetup'] -> Class['tcpsettings'] -> Class['solrdiskmount'] -> Class['solrapplicationsources'] -> Class['solrapplicationsetup'] -> Class['cosmos'] -> Class['alertz']
 }
 
 node /^sherlock-gamma/ {
