@@ -1,20 +1,20 @@
 class sherlocksetalerts {
 
     exec { "Appending deb alertz-nsca-wrapper":
-        command => "echo 'deb http://10.47.2.22:80/repos/alertz-nsca-wrapper/4 /' | sudo tee --append /etc/apt/sources.list.d/sherlock.list",
+        command => "echo 'deb http://10.47.4.220:80/repos/alertz-nsca-wrapper/4 /' | sudo tee --append /etc/apt/sources.list.d/sherlock.list",
         logoutput => true,
         path => [ "/bin/", "/usr/bin" ]
     }
 
     exec { "Appending deb alertz-nagios-common":
-        command => "echo 'deb http://10.47.2.22:80/repos/alertz-nagios-common/5 /' | sudo tee --append /etc/apt/sources.list.d/sherlock.list",
+        command => "echo 'deb http://10.47.4.220:80/repos/alertz-nagios-common/5 /' | sudo tee --append /etc/apt/sources.list.d/sherlock.list",
         path => [ "/bin/", "/usr/bin" ] ,
         logoutput => true,
         require => Exec["Appending deb alertz-nsca-wrapper"],
     }
 
     exec { "Appending deb fk-ops-sgp-sherlock":
-        command => "echo 'deb http://10.47.2.22:80/repos/fk-ops-sgp-sherlock/9 /' | sudo tee --append /etc/apt/sources.list.d/sherlock.list",
+        command => "echo 'deb http://10.47.4.220:80/repos/fk-ops-sgp-sherlock/9 /' | sudo tee --append /etc/apt/sources.list.d/sherlock.list",
         path => [ "/bin/", "/usr/bin" ] ,
         logoutput => true,
         require => Exec["Appending deb alertz-nagios-common"],

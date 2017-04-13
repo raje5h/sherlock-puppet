@@ -1,7 +1,7 @@
 class commoninfrasetup {
   
   exec { "infra-cli-source":
-        command => "sudo echo 'deb http://10.47.2.22:80/repos/infra-cli/3 /' > /etc/apt/sources.list.d/infra-cli-svc.list",
+        command => "sudo echo 'deb http://10.47.4.220:80/repos/infra-cli/3 /' > /etc/apt/sources.list.d/infra-cli-svc.list",
         path => "/usr/bin/",
     }
     
@@ -24,7 +24,7 @@ class commoninfrasetup {
     }
     
     exec { "update-jenkins-user-package":
-        command => "echo 'deb http://10.47.2.22:80/repos/fk-w3-user/8 /' | sudo tee --append /etc/apt/sources.list.d/jenkins.list",
+        command => "echo 'deb http://10.47.4.220:80/repos/fk-w3-user/8 /' | sudo tee --append /etc/apt/sources.list.d/jenkins.list",
         path => [ "/bin/", "/usr/bin" ] ,
         require => Exec["install-screen"]
     }

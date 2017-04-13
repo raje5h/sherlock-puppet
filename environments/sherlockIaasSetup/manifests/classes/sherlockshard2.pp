@@ -10,7 +10,7 @@ class sherlockshard2 {
     $appkey = "12"
     
     exec { "infra-cli-source":
-        command => "sudo echo 'deb http://10.47.2.22:80/repos/infra-cli/3 /' > /etc/apt/sources.list.d/infra-cli-svc.list",
+        command => "sudo echo 'deb http://10.47.4.220:80/repos/infra-cli/3 /' > /etc/apt/sources.list.d/infra-cli-svc.list",
         path => "/usr/bin/",
     }
 
