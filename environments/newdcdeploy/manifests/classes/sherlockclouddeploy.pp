@@ -24,7 +24,7 @@ class sherlockclouddeploy {
     } 
     
     exec { "reinstall-ha-proxy":
-        command => "sudo apt-get -y --allow-unauthenticated --force-yes install fk-sherlock-haproxy --reinstall",
+        command => "sudo apt-get -y --allow-unauthenticated --force-yes install fk-sherlock-haproxy --reinstall -t wheezy-backports",
         path => [ "/bin/", "/usr/bin/" ],
         require => Exec["apt-get-update"],
     }
