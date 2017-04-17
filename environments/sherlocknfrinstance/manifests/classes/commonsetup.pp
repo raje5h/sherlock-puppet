@@ -1,6 +1,6 @@
 class commonsetup {
     
-    $dpIp = $::db_entry
+    $dpIp = $::db_entry_nfr
         
     exec { "infra-cli-source":
         command => "sudo echo 'deb http://10.47.4.220:80/repos/infra-cli/3 /' > /etc/apt/sources.list.d/infra-cli-svc.list",
@@ -50,13 +50,13 @@ class commonsetup {
     }
     
     exec { "adding-host-1":
-        command => "echo '10.47.4.204  pf-config-publish-alt.nm.flipkart.com' | sudo tee --append /etc/hosts",
+        command => "echo '10.85.58.179  pf-config-publish-alt.nm.flipkart.com' | sudo tee --append /etc/hosts",
         path => [ "/bin/", "/usr/bin" ] ,
         require => Exec["add-sudo-jenkins"],
     }
     
     exec { "adding-host-2":
-        command => "echo '10.47.4.205   pf-config-manage.nm.flipkart.com' | sudo tee --append /etc/hosts",
+        command => "echo '10.85.58.180   pf-config-manage.nm.flipkart.com' | sudo tee --append /etc/hosts",
         path => [ "/bin/", "/usr/bin" ] ,
         require => Exec["adding-host-1"],
     }
@@ -80,7 +80,7 @@ class commonsetup {
     }
     
     exec { "adding-host-6":
-        command => "echo '10.47.4.204    pf-config-publish.nm.flipkart.com' | sudo tee --append /etc/hosts",
+        command => "echo '10.85.58.179    pf-config-publish.nm.flipkart.com' | sudo tee --append /etc/hosts",
         path => [ "/bin/", "/usr/bin" ] ,
         require => Exec["adding-host-5"],
     }   

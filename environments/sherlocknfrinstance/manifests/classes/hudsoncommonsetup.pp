@@ -17,24 +17,24 @@ class hudsoncommonsetup {
         require => Exec["apt-get-update-infra"],
     }
     
-    exec { "adding-host-1":
-        command => "echo '10.47.4.204  pf-config-publish-alt.nm.flipkart.com' | sudo tee --append /etc/hosts",
+    exec { "adding-conman-alt-publish":
+        command => "echo '10.85.58.179  pf-config-publish-alt.nm.flipkart.com' | sudo tee --append /etc/hosts",
         path => [ "/bin/", "/usr/bin" ] ,
         require => Exec["infra-cli-install"],
     }
     
-    exec { "adding-host-2":
-        command => "echo '10.47.4.205   pf-config-manage.nm.flipkart.com' | sudo tee --append /etc/hosts",
+    exec { "adding-conman-manage":
+        command => "echo '10.85.58.180   pf-config-manage.nm.flipkart.com' | sudo tee --append /etc/hosts",
         path => [ "/bin/", "/usr/bin" ] ,
         require => Exec["adding-host-1"],
     }
     
-    exec { "adding-host-2":
-        command => "echo '10.47.4.204  pf-config-publish.nm.flipkart.com' | sudo tee --append /etc/hosts",
+    exec { "adding-conman-publish":
+        command => "echo '10.85.58.179  pf-config-publish.nm.flipkart.com' | sudo tee --append /etc/hosts",
         path => [ "/bin/", "/usr/bin" ] ,
         require => Exec["adding-host-1"],
     }
-    exec { "adding-host-3":
+    exec { "adding-ops-statsd":
         command => "echo '10.65.100.54   ops-statsd.nm.flipkart.com' | sudo tee --append /etc/hosts",
         path => [ "/bin/", "/usr/bin" ] ,
         require => Exec["adding-host-2"],
