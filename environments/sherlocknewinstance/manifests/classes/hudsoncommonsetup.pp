@@ -17,33 +17,33 @@ class hudsoncommonsetup {
         require => Exec["apt-get-update-infra"],
     }
     
-    exec { "adding-host-1":
+    exec { "adding-conman-publish-alt":
         command => "echo '10.47.4.204  pf-config-publish-alt.nm.flipkart.com' | sudo tee --append /etc/hosts",
         path => [ "/bin/", "/usr/bin" ] ,
         require => Exec["infra-cli-install"],
     }
     
-    exec { "adding-host-2":
+    exec { "adding-conman-manage":
         command => "echo '10.47.4.205   pf-config-manage.nm.flipkart.com' | sudo tee --append /etc/hosts",
         path => [ "/bin/", "/usr/bin" ] ,
-        require => Exec["adding-host-1"],
+        require => Exec["adding-conman-publish-alt"],
     }
     
-    exec { "adding-host-2":
+    exec { "adding-conman-publish":
         command => "echo '10.47.4.204  pf-config-publish.nm.flipkart.com' | sudo tee --append /etc/hosts",
         path => [ "/bin/", "/usr/bin" ] ,
-        require => Exec["adding-host-1"],
+        require => Exec["adding-conman-manage"],
     }
-    exec { "adding-host-3":
+    exec { "adding-ops-statsd":
         command => "echo '10.65.100.54   ops-statsd.nm.flipkart.com' | sudo tee --append /etc/hosts",
         path => [ "/bin/", "/usr/bin" ] ,
-        require => Exec["adding-host-2"],
+        require => Exec["adding-conman-publish"],
     }
     
     exec { "tcp-1":
         command => "echo 'net.core.somaxconn=1024' | sudo tee --append /etc/sysctl.d/sherlock.conf",
         path => [ "/bin/", "/usr/bin" ] ,
-        require => Exec["adding-host-3"],
+        require => Exec["adding-ops-statsd"],
     }
     
     exec { "tcp-2":
