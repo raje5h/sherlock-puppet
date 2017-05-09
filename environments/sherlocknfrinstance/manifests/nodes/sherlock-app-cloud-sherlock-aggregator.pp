@@ -20,6 +20,18 @@ node /^sherlock-gamma.*semantic-service/ {
         Class['commonsetup'] -> Class['tcpsettings'] -> Class['sherlockdiskmount'] -> Class['applicationsources'] -> Class['applicationsetup'] -> Class['cosmos'] -> Class['alertz']
 }
 
+node /^sherlock-gamma.*rols/ {
+        include commonsetup
+        include sherlockdiskmount
+        include sherlockapplicationsources
+        include sherlockapplicationsetup
+        include cosmos
+        include alertz
+        include tcpsettings
+
+        Class['commonsetup'] -> Class['tcpsettings'] -> Class['sherlockdiskmount'] -> Class['sherlockapplicationsources'] -> Class['sherlockapplicationsetup'] -> Class['cosmos'] -> Class['alertz']
+}
+
 node /^sherlock-gamma.*solr-only/ {
         include commonsetup
         include solrdiskmount
