@@ -9,7 +9,7 @@ node /^sherlock-gamma-hudson/ {
 }
 
 
-node /^hudson-app-hooper/ {
+node /^sherlock-gamma-hooper/ {
         include hudsoncommonsetup
         include hooperapplicationsources
         include hooperapplicationsetup
